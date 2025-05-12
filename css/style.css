@@ -1,0 +1,421 @@
+body {
+    background-color: #f0f2f5;
+    font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+}
+
+.main-title {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.custom-tabs .nav-link {
+    font-weight: bold;
+    color: #495057;
+}
+
+.custom-tabs .nav-link.active {
+    background-color: #ffffff;
+    border-bottom: 3px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.custom-tab-content {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 0 0 8px 8px;
+}
+
+/* 角色卡片樣式 */
+.card.character-card {
+    height: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    border-radius: 1rem;
+}
+
+.card.character-card:hover {
+    transform: translateY(-5px);
+}
+
+.character-img {
+    height: 220px;
+    object-fit: cover;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.card-text {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+/* 大頭貼樣式 */
+img.rounded-circle {
+    border: 4px solid #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+img.rounded-circle:hover {
+    transform: scale(1.05);
+}
+
+/* 個人簡介清單 */
+ul.list-unstyled li {
+    margin-bottom: 6px;
+    font-size: 1rem;
+    color: #333;
+}
+
+
+/* 區塊標題樣式 */
+h5 {
+    font-weight: bold;
+    border-left: 5px solid #198754;
+    padding-left: 10px;
+    margin-top: 1.5rem;
+}
+
+/* 段落文字 */
+p {
+    line-height: 1.6;
+    font-size: 1.05rem;
+    color: #444;
+}
+
+/* 響應式微調 */
+@media (max-width: 768px) {
+    img.rounded-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    ul.list-unstyled li {
+        font-size: 0.95rem;
+    }
+}
+
+
+/* 表格樣式 */
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.table {
+    background-color: #ffffff;
+}
+
+.table th {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: bold;
+}
+
+.table td,
+.table th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.95rem;
+    padding: 0.75rem;
+}
+
+/* Badge 樣式 */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+    border-radius: 0.6rem;
+}
+
+/* 標題區塊 */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+/* 響應式優化 */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-text,
+    .table td,
+    .table th {
+        font-size: 0.85rem;
+    }
+
+    .custom-tab-content {
+        padding: 20px;
+    }
+}
+
+.btn-block {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* 模態框的背景 */
+.modal {
+    display: none;
+    /* 默認隱藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* 半透明黑色背景 */
+    padding-top: 100px;
+    text-align: center;
+}
+
+/* 模態框內容 */
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 600px;
+    max-height: 70vh;
+    /* 限制最大高度為視窗高度的 80% */
+    overflow-y: auto;
+    /* 垂直內容過多時顯示捲軸 */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 關閉按鈕 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.treatment-steps {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #fff9f0;
+    border: 1px solid #ffe0b2;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.treatment-steps h3 {
+    text-align: center;
+    color: #e65100;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.treatment-section {
+    margin-bottom: 1.5rem;
+    background-color: #fff3e0;
+    padding: 1rem;
+    border-left: 5px solid #fb8c00;
+    border-radius: 8px;
+}
+
+.treatment-section h4 {
+    color: #ef6c00;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.treatment-section ul {
+    padding-left: 1.2rem;
+    list-style-type: "🔹 ";
+    font-size: 0.95rem;
+    color: #424242;
+}
+
+.treatment-section li {
+    margin-bottom: 0.5rem;
+}
+
+/* 下拉選單 */
+#injurySelect {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+/* 當選擇框獲得焦點時 */
+#injurySelect:focus {
+    border-color: #2196f3;
+    outline: none;
+}
+
+/* 顯示傷勢細節區域 */
+.injury-details {
+    padding: 15px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    display: none;
+    /* 預設隱藏 */
+    border: 1px solid #ccc;
+}
+
+.injury-details h3 {
+    text-align: center;
+    color: #d32f2f;
+    /* 可選：加強顏色區別 */
+    margin-bottom: 15px;
+}
+
+.injury-details ul {
+    text-align: left;
+    padding-left: 20px;
+    /* 保留縮排 */
+    margin: 0 auto;
+    list-style-type: disc;
+    /* 或 square、circle，看你風格喜好 */
+}
+
+/* 可以根據不同選項變換的傷勢細節 */
+.injury-details.active {
+    display: block;
+}
+
+.injury-details {
+    margin-top: 1.5rem;
+}
+
+.vital-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.vital-btn:hover {
+    background-color: #388e3c;
+}
+
+.vital-signs {
+    display: none;
+    margin-top: 1.5rem;
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #90caf9;
+    text-align: left;
+}
+
+.vital-signs h3 {
+    color: #1565c0;
+    margin-bottom: 10px;
+}
+
+.vital-signs ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.image-container {
+    width: 100%;
+    height: 200px;
+    /* 可依需要調整高度 */
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 放大圖片顯示區域 */
+#image-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 顯示放大圖片 */
+#image-modal img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+/* 關閉按鈕 */
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 50%;
+}
