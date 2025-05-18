@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="server2-tab" data-bs-toggle="tab" data-bs-target="#server2" type="button"
-                    role="tab">殭屍跟我有個約會</button>
+                    role="tab">殭屍跟我有個約會(佰安續章)</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="server3-tab" data-bs-toggle="tab" data-bs-target="#server3" type="button"
@@ -77,6 +77,19 @@
                         </ul>
                     </div>
                 </div>
+                <h5 class="mt-4">快速連結：</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <a href="https://www.twitch.tv/capricornxiang" target="_blank" class="btn btn-primary btn-block">前往 Twitch</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="https://discord.com/users/uaenaxiang" target="_blank" class="btn btn-info btn-block">加入
+                            Discord</a>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="injuryGuideBtn" class="btn btn-success btn-block">醫護教材</button>
+                    </div>
+                </div>
                 <h5 class="mt-4">🎮 目前活躍伺服器：</h5>
                 <ul class="list-group mb-4">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -101,20 +114,7 @@
                     <li class="list-group-item"><strong>麥克風：</strong>HyperX SoloCast</li>
                 </ul>
 
-                <h5 class="mt-4">快速連結：</h5>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <a href="https://www.twitch.tv/capricornxiang" target="_blank"
-                            class="btn btn-primary btn-block">前往 Twitch</a>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="https://discord.com/users/uaenaxiang" target="_blank" class="btn btn-info btn-block">加入
-                            Discord</a>
-                    </div>
-                    <div class="col-md-4">
-                        <button id="injuryGuideBtn" class="btn btn-success btn-block">醫護教材</button>
-                    </div>
-                </div>
+                
 
 
                 <h5 class="mt-4">完整 RP 經歷紀錄：</h5>
@@ -286,6 +286,46 @@
 
             <!-- 殭屍跟我有個約會 -->
             <div class="tab-pane fade" id="server2" role="tabpanel">
+                <h3>殭屍跟我有個約會(佰安續章)</h3>
+                
+                <div class="card mb-4 flex-md-row shadow-sm h-md-250">
+                    <div class="col-md-4">
+                        <img class="bd-placeholder-img card-img-left img-fluid" src="./img/ZD/image.png" alt="小翔">
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-start col-md-8">
+                        <strong class="d-inline-block mb-2 text-primary">黃曉翔</strong>
+                        <p class="card-text mb-auto">
+                           整理中
+                        </p>
+                        <button class="btn btn-primary"  onclick="toggleStory(this)">查看故事</button>
+                    
+                        <div id="moreStory" class="more-story" style="display:none;">
+                           
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <h5 class="mt-4">RP 回憶：</h5>
+                
+            </div>
+            <div class="tab-pane fade" id="server3" role="tabpanel">
+                <h3>佰安市</h3>
+                <div class="card mb-4 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="./img/ZD/image.png" class="img-fluid rounded-start" alt="小翔">
+                        </div>
+                        <div class="col-md-8 p-3 d-flex flex-column">
+                            <strong class="mb-2 text-primary">黃曉翔 - 副院長</strong>
+                            <p class="mb-auto">
+                                整理中
+                            </p>
+                        </div>
+                </div>
+
+            
+                <h5 class="mt-4">RP 回憶：</h5>
                 
             </div>
         </div>
@@ -307,7 +347,7 @@
                 <option value="amputation">肢體截斷</option>
                 <option value="laceration">撕裂傷</option>
                 <option value="gunshotGraze">槍傷（擦過）</option>
-                <option value="gunshotPenetrating">槍傷（遷入）</option>
+                <option value="gunshotPenetrating">槍傷（嵌入）</option>
             </select>
 
 
