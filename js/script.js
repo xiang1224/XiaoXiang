@@ -29,3 +29,13 @@ closeBtn.addEventListener('click', () => {
     modal.style.display = 'none'; // 隱藏 Modal
 });
 
+    function toggleStory(button) {
+  const story = button.nextElementSibling;
+    if (!story) return;
+
+    const isVisible = story.classList.contains('show');
+    story.classList.toggle('show');
+
+    // 更改按鈕文字
+    button.innerText = isVisible ? '查看結局' : '收起故事';
+}
