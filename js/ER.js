@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case "gunshotPenetrating":
                 content = `
-        <h3>🔫 槍傷處置（遷入性）</h3>
+        <h3>🔫 槍傷處置（嵌入性）</h3>
         <div class="treatment-steps">
                 <h3>🩹 傷口處置流程</h3>
                 <div class="treatment-section">
@@ -313,7 +313,37 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
     `;
                 break;
+            case "hemopneumothorax":
+                content = `
+            <h3>🫁 氣血胸</h3>
+            <div class="treatment-section">
+                <h4>🏥 院外處置</h4>
+                <ul>
+                    <li>/me 給予高濃度氧氣</li>
+                    <li>/me 使用14G粗針於第2肋間鎖骨中線進行減壓穿刺</li>
+                </ul>
+            </div>
 
+            <div class="treatment-section">
+                <h4>🧑‍⚕️ 院內檢查</h4>
+                <ul>
+                    <li>/me 照攝胸腔X光與CT影像，確認積氣與積血範圍</li>
+                </ul>
+            </div>
+            <div class="treatment-section">
+                <h4>🧑‍⚕️ 院內處置</h4>
+                <ul>
+                    <li>/me 上IV並輸注生理食鹽水穩定血壓</li>
+                    <li>/me 安裝EKG與血氧監測</li>
+                    <li>/me 施打全身麻醉，插入氣管內管</li>
+                    <li>/me 在第5肋間前腋線劃開小切口，進行胸管插入</li>
+                    <li>/me 連接引流瓶</li>
+                    <li>/me 穩定後將胸管縫合固定，傷口以無菌敷料包紮</li>
+                </ul>
+            </div>
+
+        `;
+                    break;
                 break;
             default:
                 content = `<p>請選擇一個傷勢類型。</p>`;
