@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <ul>
                         <li>/me 上IV，吊上生理食鹽水</li>
                         <li>/me 清潔手術部位，裝上生理監測儀</li>
-                        <li>/me 施打全身麻醉，並戴上氧氣面罩</li>
+                        <li>/me 替患者戴上氧氣面罩，並施打全身麻醉，並</li>
                         <li>/me 切開傷口，擴大術野以尋找嵌入的子彈或碎片</li>
                         <li>/me 使用紗布吸收積血，確保手術視野清晰</li>
                         <li>/me 小心移除彈頭或碎裂金屬</li>
