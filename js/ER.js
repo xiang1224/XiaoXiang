@@ -343,6 +343,60 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
 
         `;
+                break;
+            case "dislocation":
+                content = `
+        <h3>脫臼手術</h3>
+        <div class="treatment-steps">
+            <h3>⚕️ 脫臼手術（開放復位＋關節囊修補）</h3>
+
+            <div class="treatment-section">
+                <h4>🏥 院外處置</h4>
+                <ul>
+                    <li>/me 協助患者固定患肢，避免進一步損傷</li>
+                    <li>/me 施行簡易止痛與冰敷，減緩疼痛與腫脹</li>
+                    <li>/me 監測生命徵象，準備轉送至醫院</li>
+                </ul>
+            </div>
+
+            <div class="treatment-section">
+                <h4>🧑‍⚕️ 院內檢查</h4>
+                <ul>
+                    <li>/me 照攝 X 光，確認脫臼方向與有無骨折</li>
+                    <li>/me 檢查神經與血管供應情況，排除壓迫性損傷</li>
+                </ul>
+            </div>
+
+            <div class="treatment-section">
+                <h4>🧑‍⚕️ 院內處置（手術流程）</h4>
+                <ul>
+                    <li>/me 建立靜脈管路，輸注生理食鹽水</li>
+                    <li>/me 接上生理監測儀並給予氧氣鼻管</li>
+                    <li>/me 施打全身麻醉，病人進入麻醉狀態</li>
+                    <li>/me 對脫臼部位及周邊區域進行消毒，鋪設無菌巾</li>
+                    <li>/me 使用手術刀沿前外側切口切開皮膚與皮下組織</li>
+                    <li>/me 使用拉鉤撐開術野，顯露關節囊</li>
+                    <li>/me 清除關節腔內血塊與軟組織碎片</li>
+                    <li>/me 將骨頭復位至關節盂內，確認位置正確</li>
+                    <li>/me 修補撕裂的關節囊與盂唇組織，增強穩定性</li>
+                    <li>/me 檢查血管與神經，確認無受壓或損傷</li>
+                    <li>/me 逐層縫合肌肉及皮下組織</li>
+                    <li>/me 使用可吸收縫線縫合皮膚，並覆蓋無菌敷料</li>
+                    <li>/me 將脫臼部位以支架固定，限制活動</li>
+                </ul>
+            </div>
+
+            <div class="treatment-section">
+                <h4>💊 術後處置</h4>
+                <ul>
+                    <li>/me 靜脈輸注 D10 並加入止痛藥物</li>
+                    <li>/me 監測生命徵象與肢體血運</li>
+                    <li>/me 指示患者休息並避免提重物</li>
+                    <li>/me 將患者送往恢復室觀察</li>
+                </ul>
+            </div>
+        </div>
+    `;
                     break;
                 break;
             default:
