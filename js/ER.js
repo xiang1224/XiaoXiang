@@ -138,8 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="treatment-section">
                     <h4>🏥 院外處置</h4>
                     <ul>
+                        <li>/me 小心移除燒傷區域周邊的衣物與飾品</li>
                         <li>/me 使用生理食鹽水將雜質沖走</li>
                         <li>/me 使用無菌敷料覆蓋</li>
+                        <li>/me 建立靜脈管路，開始輸注生理食鹽水</li>
                     </ul>
                 </div>
                 <div class="treatment-section">
@@ -150,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <li>/me 將水泡刺破</li>
                         <li>/me 清理燒傷區域，剪除壞死皮膚</li>
                         <li>/me 使用生理食鹽水與抗菌溶液沖洗燒傷部位</li>
+                        <li>/me 貼上人工皮</li>
                         <li>/me 使用無菌敷料覆蓋</li>
                         <li>/me 使用彈性繃帶固定燒傷包紮</li>
                     </ul>
@@ -300,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <ul>
                         <li>/me 上IV，吊上生理食鹽水</li>
                         <li>/me 清潔手術部位，裝上生理監測儀</li>
-                        <li>/me 替患者戴上氧氣面罩，並施打全身麻醉，並</li>
+                        <li>/me 替患者戴上氧氣面罩，並施打全身麻醉</li>
                         <li>/me 切開傷口，擴大術野以尋找嵌入的子彈或碎片</li>
                         <li>/me 使用紗布吸收積血，確保手術視野清晰</li>
                         <li>/me 小心移除彈頭或碎裂金屬</li>
@@ -398,6 +401,54 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     `;
                     break;
+            case "drugPoisoningGastricLavage":
+                            content = `
+            <h3>💊 藥物中毒合併洗胃處置</h3>
+            <div class="treatment-steps">
+                <h3>🩹 處置流程</h3>
+
+                <!-- 院外處置 -->
+                <div class="treatment-section">
+                    <h4>🏥 院外處置</h4>
+                    <ul>
+                        <li>/me 建立靜脈管路，輸注生理食鹽水以維持循環</li>
+                        <li>/me 給予氧氣鼻導管供氧，監測生命徵象</li>
+                    </ul>
+                </div>
+
+                <!-- 院內初步處置 -->
+                <div class="treatment-section">
+                    <h4>🧑‍⚕️ 院內初步處置</h4>
+                    <ul>
+                        <li>/me 接上生理監測儀</li>
+                        <li>/me 建立雙側靜脈管路，持續輸注生理食鹽水或林格氏液</li>
+                        <li>/me 施打鎮靜與止吐藥物</li>
+                        <li>/me 插入鼻胃管</li>
+                    </ul>
+                </div>
+
+                <!-- 院內洗胃步驟 -->
+                <div class="treatment-section">
+                    <h4>🧑‍⚕️ 洗胃操作</h4>
+                    <ul>
+                        <li>/me 將患者頭部偏向一側</li>
+                        <li>/me 使用溫生理食鹽水作為洗胃液，分批注入200～300mL</li>
+                        <li>/me 每次注入後立即抽吸胃內容物</li>
+                        <li>/me 重複注入與抽吸動作</li>
+                        <li>/me 洗胃結束後注入活性碳溶液吸附殘餘藥物</li>
+                        <li>/me 將胃管暫留固定</li>
+                    </ul>
+                </div>
+
+                <!-- 術後與觀察 -->
+                <div class="treatment-section">
+                    <h4>💊 術後與觀察</h4>
+                    <ul>
+                        <li>/me 拔除鼻胃管</li>
+                    </ul>
+                </div>
+            </div>
+    `;
                 break;
             default:
                 content = `<p>請選擇一個傷勢類型。</p>`;
