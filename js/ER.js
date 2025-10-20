@@ -449,6 +449,101 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
     `;
+
+                break;
+            case "cardiactamponade":
+                content = `
+                <h3>❤️‍🔥 心包填塞處置</h3>
+                <div class="treatment-steps">
+                    <h3>🩹 處置流程</h3>
+                    <!-- 院外處置 -->
+                    <div class="treatment-section">
+                        <h4>🏥 院外處置</h4>
+                        <ul>
+                            <li>/me給予高濃度氧氣</li>
+                            <li>/me 建立靜脈管路，緩慢輸注生理食鹽水以維持血壓</li>
+                        </ul>
+                    </div>
+                    <!-- 院內檢查 -->
+                    <div class="treatment-section">
+                        <h4>🧪 院內檢查</h4>
+                        <ul>
+                            <li>/me 將患者接上生理監測儀</li>
+                            <li>/me 施行超音波（Echo）檢查確認心包積液壓迫心臟情形</li>
+                        </ul>
+                    </div>
+
+                    <!-- 院內處置 -->
+                    <div class="treatment-section">
+                        <h4>🧑‍⚕️ 院內處置</h4>
+                        <ul>
+                            <li>/me 消毒穿刺區域（左劍突下或左第5肋間處）</li>
+                            <li>/me 給予局部麻醉，監測心電圖避免穿刺時誘發心律不整</li>
+                            <li>/me 以穿刺針沿劍突方向向左肩指向心包腔，抽吸出積血或液體</li>
+                            <li>/me 連接延長管與注射器，持續抽出心包液</li>
+                            <li>/me 使用超音波確認心包腔內積液減少</li>
+                            <li>/me 同步輸注液體與升壓劑（如Dopamine）維持灌流壓</li>
+                            <li>/me 移除穿刺針</li>
+                        </ul>
+                    </div>
+
+                    <!-- 術後與觀察 -->
+                    <div class="treatment-section">
+                        <h4>💊 術後與觀察</h4>
+                        <ul>
+                            <li>/me 給予靜脈抗生素以預防感染</li>
+                        </ul>
+                    </div>
+                </div>
+
+    `
+
+                break;
+            case "thoracotomyexploration":
+                content = `
+            <h3>🫀 開胸探查手術(肺葉破裂)</h3>
+            <div class="treatment-steps">
+                <h3>🔪 手術處置流程</h3>
+                <div class="treatment-section">
+                    <h4>🏥 手術前準備</h4>
+                    <ul>
+                        <li>/me 建立雙側靜脈輸液管路，給予氧氣與靜脈輸液</li>
+                        <li>/me 施打全身麻醉劑</li>
+                        <li>/me 進行氣管插管</li>
+                        <li>/me 於胸前進行無菌消毒與覆巾準備</li>
+                    </ul>
+                </div>
+                <div class="treatment-section">
+                    <h4>🩸 手術進行中</h4>
+                    <ul>
+                        <li>/me 在患側第五肋間進行開胸切口</li>
+                        <li>/me 使用肋骨撐開器暴露胸腔內部</li>
+                        <li>/me 以吸引器清除胸腔內血液與異物</li>
+                        <li>/me 進行肺葉縫合或部分切除</li>
+                        <li>/me 縫合破損血管</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-section">
+                    <h4>🧵 手術收尾</h4>
+                    <ul>
+                        <li>/me 置入胸管以排出殘留空氣與積血</li>
+                        <li>/me 使用生理食鹽水沖洗胸腔，確認無殘留異物</li>
+                        <li>/me 將肋骨層層縫合，恢復胸壁完整性</li>
+                        <li>/me 以可吸收線縫合皮下組織與皮膚</li>
+                        <li>/me 清潔手術區域並貼上無菌敷料</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-section">
+                    <h4>💉 術後照護</h4>
+                    <ul>
+                        <li>/me 給予止痛與抗生素治療以預防感染</li>
+                    </ul>
+                </div>
+            </div>
+
+    `
                 break;
             default:
                 content = `<p>請選擇一個傷勢類型。</p>`;
