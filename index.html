@@ -6,6 +6,7 @@
     <title>GTA-RP 資料夾頁籤</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
 
 </head>
@@ -20,6 +21,14 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="self-tab" data-bs-toggle="tab" data-bs-target="#self" type="button"
                     role="tab">扮演者本人</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="server14-tab" data-bs-toggle="tab" data-bs-target="#server14" type="button"
+                    role="tab">神秘小鎮</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="server13-tab" data-bs-toggle="tab" data-bs-target="#server13" type="button"
+                    role="tab">DUMP</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="server12-tab" data-bs-toggle="tab" data-bs-target="#server12" type="button"
@@ -93,24 +102,40 @@
                         </ul>
                     </div>
                 </div>
-                <h5 class="mt-4">快速連結：</h5>
+                <h5 class="mt-4"><i class="fas fa-external-link-alt"></i> 快速連結</h5>
                 <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <a href="https://www.twitch.tv/capricornxiang" target="_blank"
-                            class="btn btn-primary btn-block">前往 Twitch</a>
+                    <div class="col-md-6">
+                        <a href="https://www.twitch.tv/capricornxiang" target="_blank" class="btn btn-primary btn-block w-100">
+                            <i class="fab fa-twitch"></i> 前往 Twitch 直播
+                        </a>
                     </div>
-                    <div class="col-md-4">
-                        <a href="https://discord.gg/KweeuFJPyn" target="_blank" class="btn btn-info btn-block">加入
-                            Discord</a>
-                    </div>
-                    <div class="col-md-4">
-                        <button id="injuryGuideBtn" class="btn btn-success btn-block">醫護教材</button>
+                    <div class="col-md-6">
+                        <a href="https://discord.gg/KweeuFJPyn" target="_blank" class="btn btn-info btn-block w-100 text-white">
+                            <i class="fab fa-discord"></i> 加入 Discord 頻道
+                        </a>
                     </div>
                 </div>
+                
+                <hr class="my-4">
+                
+            <h5 class="mt-4"><i class="fas fa-book-medical"></i> 醫護專區教材</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <button id="injuryGuideBtn" class="btn btn-success btn-block w-100">
+                        <i class="fas fa-stretcher"></i> 大眾傷勢 SOP
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <button id="medSearchBtn" class="btn btn-warning btn-block w-100">
+                        <i class="fas fa-pills"></i> 臨床藥物查詢
+                    </button>
+                </div>
+            </div>
+            
                 <h5 class="mt-4">🎮 目前活躍伺服器：</h5>
                 <ul class="list-group mb-4">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Exogen RP
+                        神秘小鎮
                         <span class="badge bg-secondary">主要</span>
                     </li>
                 </ul>
@@ -141,71 +166,28 @@
                             <tr>
                                 <th>伺服器</th>
                                 <th>角色</th>
-                                <th>職位</th>
+                                <th>最終職位</th>
                                 <th>狀態</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>紐約 NewYork</td>
+                                <td>神秘小鎮</td>
                                 <td>黃曉翔</td>
-                                <td>醫護 - 主任</td>
-                                <td><span class="text-danger">死亡</span> <span class="badge bg-secondary">殺青</span></td>
+                                <td>平民</td>
+                                <td><span class="text-primary">探索中</span>
                             </tr>
                             <tr>
-                                <td>逆行 Wuming</td>
-                                <td>黃志翔</td>
-                                <td>醫護 - 主治醫師</td>
-                                <td>出國進修<span class="badge bg-secondary">殺青</span></td>
+                                <td>DUMP</td>
+                                <td>蘇承翔</td>
+                                <td>代理院長</td>
+                                <td><span class="text-info">與姐姐回老家</span><span class="badge bg-secondary">殺青</span></td>
                             </tr>
                             <tr>
-                                <td>Knick</td>
-                                <td>凱文．諾瓦克</td>
-                                <td>醫護 - 實習</td>
-                                <td>返回家鄉<span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>Ark 方舟計畫</td>
+                                <td>Exogen</td>
                                 <td>黃曉翔</td>
-                                <td>醫護 - 副院長</td>
-                                <td><span class="text-info">甜蜜生活中</span><span class="badge bg-secondary">殺青</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alpha G2.0</td>
-                                <td>歐曉翔</td>
-                                <td>醫護 - 主任</td>
-                                <td>出國治療腦瘤<span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>佰安市</td>
-                                <td>黃曉翔</td>
-                                <td>醫護 - 副院長</td>
-                                <td>跟院長回韓國<span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>殭屍跟我有個約會（佰安續章）</td>
-                                <td>黃曉翔</td>
-                                <td>X-wing 指揮官</td>
-                                <td><span class="text-info">與阿鳥前往莊園</span><span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>微光小鎮 3.0</td>
-                                <td>黃曉翔</td>
-                                <td>救護科導師</td>
+                                <td>代理副院長</td>
                                 <td><span class="text-danger">死亡</span><span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>ZAC</td>
-                                <td>歐曉翔</td>
-                                <td>餘燼醫生</td>
-                                <td><span class="text-danger">死亡</span><span class="badge bg-secondary">殺青</span></td>
-                            </tr>
-                            <tr>
-                                <td>桃源奇境2.0</td>
-                                <td>黃曉翔</td>
-                                <td>正式醫生</td>
-                                <td><span>穩定上班中</span></span><span class="badge bg-secondary">殺青</span></td>
                             </tr>
                             <tr>
                                 <td>這不是我熟悉的RP</td>
@@ -214,15 +196,377 @@
                                 <td><span class="text-info">與咪嚕苦回老家養病</span><span class="badge bg-secondary">殺青</span></td>
                             </tr>
                             <tr>
-                                <td>Exogen</td>
+                                <td>桃源奇境2.0</td>
                                 <td>黃曉翔</td>
-                                <td>正式急救員</td>
-                                <td><span class="text-primary">值勤中</span></td>
+                                <td>正式醫生</td>
+                                <td><span>穩定上班中</span><span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>ZAC</td>
+                                <td>歐曉翔</td>
+                                <td>餘燼醫生</td>
+                                <td><span class="text-danger">死亡</span><span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>微光小鎮 3.0</td>
+                                <td>黃曉翔</td>
+                                <td>救護科導師</td>
+                                <td><span class="text-danger">死亡</span><span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>殭屍跟我有個約會（佰安續章）</td>
+                                <td>黃曉翔</td>
+                                <td>X-wing 指揮官</td>
+                                <td><span class="text-info">與阿鳥前往莊園</span><span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>佰安市</td>
+                                <td>黃曉翔</td>
+                                <td>醫護 - 副院長</td>
+                                <td>跟院長回韓國<span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>Alpha G2.0</td>
+                                <td>歐曉翔</td>
+                                <td>醫護 - 主任</td>
+                                <td>出國治療腦瘤<span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ark 方舟計畫</td>
+                                <td>黃曉翔</td>
+                                <td>醫護 - 副院長</td>
+                                <td><span class="text-info">甜蜜生活中</span><span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>Knick</td>
+                                <td>凱文．諾瓦克</td>
+                                <td>醫護 - 實習</td>
+                                <td>返回家鄉<span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>逆行 Wuming</td>
+                                <td>黃志翔</td>
+                                <td>醫護 - 主治醫師</td>
+                                <td>出國進修<span class="badge bg-secondary">殺青</span></td>
+                            </tr>
+                            <tr>
+                                <td>紐約 NewYork</td>
+                                <td>黃曉翔</td>
+                                <td>醫護 - 主任</td>
+                                <td><span class="text-danger">死亡</span> <span class="badge bg-secondary">殺青</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+            </div>
+            <div class="tab-pane fade" id="server13" role="tabpane13">
+                <h3>DUMP</h3>
+                <div class="card mb-4 flex-md-row shadow-sm h-md-250">
+                    <div class="col-md-4">
+                        <img class="bd-placeholder-img card-img-left img-fluid" src="./img/DUMP/image21.png" alt="小翔">
+                    </div>
+                    <div class="col-md-8 p-3 d-flex flex-column">
+                        <strong class="mb-2 text-primary">蘇承翔 - 副院長</strong>
+                        <p class="mb-auto">
+                            蘇承翔，新竹人，與蘇零是龍鳳胎，只差一分鐘。傳聞裡，是姐姐先伸手，他才跟著來到這個世界。兩人自小並肩成長，後來一起北上，就讀國立臺灣大學醫學院。蘇零選擇小兒科，溫柔而果斷；他進入急診醫學科，站在最混亂、也最貼近生死的地方。
+                            
+                            對承翔而言，人生的順位很清楚——第一是姐姐，其次才是患者與醫院。他不是把病人放低，而是把自己放在姐姐之後。他始終認為，自己存在的意義，是替她穩住第一線，讓她能放心向前。她在樓上決策方向，他在樓下守住秩序；她承擔整座醫院的重量，他替她擋住最直接的風浪。
+                            
+                            他有情感障礙，不擅長表達溫度，也不擅長解釋心意。於是他把一切互動都視為工作的一部分。對下屬的提醒、玩笑、沉默與退讓，在他眼裡都是管理的一環。他不是沒脾氣，只是明白情緒若先於判斷，現場就會失控。
+                            
+                            有人挑釁他「有種就開除」，他並非不敢，而是不願讓權力成為第一手段。開除很快，培養很慢；衝突很直接，信任卻難重建。他真正擔心的，不是犯錯，而是有人把這份工作看得太輕。
+                            
+                            承翔很少談理想，只談責任。若要他為自己下註解，他大概會平靜地說——他不是為了掌聲站在急診，而是為了讓蘇零少一點後顧之憂。只要姐姐還在前面，他就會在後面，安靜地撐著。
+                        </p>
+                        <a href="https://docs.google.com/document/d/1B2EjFlOFrQmxqKlfMGXyQ0tiHLurpg24vN8ojH4-QaQ/edit?usp=sharing
+                                                                                        " target="_blank" class="btn btn-primary mt-3 disabled">查看角色完整故事</a>
+                    </div>
+                </div>
+            
+                <h5 class="mt-4">RP 回憶：</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image9.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image1.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image2.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image3.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image4.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image5.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image6.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image7.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image8.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image10.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image11.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image12.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image13.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image14.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image15.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image16.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image17.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image18.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image19.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image20.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image22.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image23.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image24.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image25.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image26.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/image27.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/IMG_0637.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/DUMP/S__40599555.jpg" alt="回憶2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="server11" role="tabpane11">
+                <h3>這不是我熟悉的RP</h3>
+                <div class="card mb-4 flex-md-row shadow-sm h-md-250">
+                    <div class="col-md-4">
+                        <img class="bd-placeholder-img card-img-left img-fluid" src="./img/熟悉/image3.png" alt="小翔">
+                    </div>
+                    <div class="col-md-8 p-3 d-flex flex-column">
+                        <strong class="mb-2 text-primary">黃曉翔 - 主任救護員</strong>
+                        <p class="mb-auto">
+                            出生於2000年12月24日，台灣人。自幼性格溫和細膩，總是默默觀察他人情緒，主動伸出援手。這份敏感與同理心，來自童年時期家人罹病的經歷。那段日子，他看著父親在病床上苦撐、母親在走廊默默流淚，而自己卻什麼也做不了。那份深層的無力感，成為他走上醫路的開端。
+                            經過多年苦讀與實習洗禮，他終於結束醫學院實習。他未選擇立即進入都市醫院，而是決定前往一處名為洛聖都的城市。有許多等待救援的病人與家庭。他選擇這裡，不為金錢、不為名聲，只為了實踐他那句早已根植心中的承諾——「哪裡需要我，我就去哪裡。」<br>
+                            他並非毫無缺陷。他過於理想主義，常將病患需求置於自我之上；也因過度投入工作，時常忽略休息與自我情緒調適。這些特質讓他在醫學院實習時曾多次與上級產生摩擦。<br>他不願為數據與體制犧牲對人的關照，拒絕草率開藥、不顧患者意願的治療方式。這樣的他，被部分同儕視為難以管理，但在患者與家屬眼中，卻是真誠且值得信賴的存在。<br>
+                            入城那日，天空飄著細雨。他揹著簡單行李，步入洛聖都機場。有人問他為何選擇這裡，他輕聲回道：「因為這裡的沉默，需要有人傾聽。」
+                            或許他無法改變整個世界，但至少，他能成為這座城市某些人的希望光芒。
+                        </p>
+                        <a href="https://docs.google.com/document/d/1B2EjFlOFrQmxqKlfMGXyQ0tiHLurpg24vN8ojH4-QaQ/edit?usp=sharing
+                                                                " target="_blank" class="btn btn-primary mt-3">查看角色完整故事</a>
+                    </div>
+                </div>
+            
+                <h5 class="mt-4">RP 回憶：</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/IMG_0575.jpg" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/IMG_0564.jpg" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/IMG_0440.jpg" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/IMG_0553.jpg" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/image2.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final10.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final8.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final7.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final6.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final5.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final4.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final3.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final2.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/final1.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/image6.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/TE5wetpOzZIQ.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/2BW6it0aaf4Y.png" alt="回憶14">
+                        </div>
+                    </div>
+            
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/raw.png" alt="回憶14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/raw1.png" alt="回憶14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/image1.png" alt="回憶14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/vraLai0RujTh.png" alt="回憶14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/file-XhSZqSPof52xk3HocHbt5L.png" alt="回憶14">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/熟悉/螢幕擷取畫面 2025-05-29 230140.png" alt="回憶14">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="server12" role="tabpane12">
                 <h3>Exogen</h3>
@@ -239,12 +583,118 @@
                             在過程中，他始終尋找著合適的醫療機構，希望能正式任職，將所學醫術與這座城市的高科技資源結合，推動醫療進步。對他來說，Exogen 就像一張嶄新的白紙，等待他用努力與夢想去描繪。
                             黃曉翔深信：只要堅持下去，Exogen 將見證他的成長，而他，也將成為這座高科技城市醫療發展的重要一環。
                         </p>
+                        <a href="https://docs.google.com/document/d/1XiYPoCQZURIKmGomgJn-w6SQk2Yh2OzzPQtCyTvf59g/edit?usp=sharing
+                                                                            " target="_blank" class="btn btn-primary mt-3">查看角色完整故事</a>
                     </div>
                 </div>
             
                 <h5 class="mt-4">RP 回憶：</h5>
                 <div class="row g-3">
-                    
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image18.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image19.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image16.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image17.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image20.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image21.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image2.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image3.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image4.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image5.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image6.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image7.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image8.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image9.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image10.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image11.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image12.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image13.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image14.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image15.png" alt="回憶2">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="image-container">
+                            <img src="./img/Exo/image22.png" alt="回憶2">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="server11" role="tabpane11">
@@ -1266,30 +1716,58 @@
                 </div>
             </div>
         </div>
-
+        <div id="versionModal" class="modal">
+            <div class="modal-content version-selector">
+                <h3>臨床診斷系統版本選擇</h3>
+                <p>請依據當前模擬情境選擇操作協議：</p>
+                <div class="version-btns">
+                    <button id="loadMeBtn">
+                        <i class="fas fa-user-md" style="color: #10b981; margin-bottom: 10px;"></i>
+                        <span>角色動作版</span>
+                        <small>詳盡行為描述 (/me)</small>
+                    </button>
+                    <button id="loadDoBtn">
+                        <i class="fas fa-terminal" style="color: #3b82f6; margin-bottom: 10px;"></i>
+                        <span>系統狀態版</span>
+                        <small>自動化邏輯指令 (/do)</small>
+                    </button>
+                </div>
+                <button id="closeVersionModal" class="close-text" onclick="closeVersionMenu()">← 返回醫療後台</button>
+            </div>
+        </div>
         <!-- Modal 結構 -->
         <div id="injuryModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>選擇傷勢類型</h2>
                 <select id="injurySelect">
                     <option value="">-- 請選擇 --</option>
                     <option value="bleeding">出血(擦傷)</option>
                     <option value="fracture">疑似骨折</option>
-                    <option value="Aburn">輕度燒燙傷</option>
-                    <option value="Bburn">重度燒燙傷</option>
-                    <option value="pneumothorax">氣胸 / 肋骨刺穿</option>
-                    <option value="amputation">肢體截斷</option>
                     <option value="laceration">撕裂傷</option>
-                    <option value="gunshotGraze">槍傷（擦過）</option>
-                    <option value="gunshotPenetrating">槍傷（嵌入）</option>
-                    <option value="hemopneumothorax">氣血胸</option>
-                    <option value="dislocation">脫臼處理</option>
-                    <option value="drugPoisoningGastricLavage">洗胃</option>
-                    <option value="cardiactamponade">心包填塞</option>
+                    <option value="burn1">1度燒燙傷</option>
+                    <option value="burn2">2度燒燙傷</option>
+                    <option value="burn3">3度燒燙傷</option>
+                    <option value="gsw">槍傷處置與彈頭移除手術</option>
+                    <option value="pneumothorax">氣血胸</option>
                     <option value="thoracotomyexploration">開胸探查手術(肺葉破裂)</option>
+                    <option value="laparotomy">腹部探查手術(內臟破裂)</option>
+                    <option value="tamponade_plus">心包填塞</option>
+                    <option value="dislocation">脫臼處理</option>
+                    <option value="lavage">洗胃</option>
+                    <option value="craniotomy">顱內出血</option>
                 </select>
+                
                 <div id="injuryDetails" class="injury-details"></div>
+                <div id="sopDisclaimerContainer" style="display: none;">
+                    <div class="sop-disclaimer"
+                        style="margin-top: 25px; padding: 12px; background: #ebf8ff; border-left: 4px solid #4299e1; border-radius: 4px;">
+                        <p style="color: #2b6cb0; font-size: 0.8rem; margin: 0; line-height: 1.5; text-align: left;">
+                            <i class="fas fa-info-circle"></i> <strong>SOP 操作指引聲明：</strong><br>
+                            本處置流程僅供 <strong>Roleplay (RP) 情境模擬</strong> 使用。
+                            內容不代表現實專業醫療建議。<strong>若於現實中遇到緊急情況，請立即就醫。</strong>
+                        </p>
+                    </div>
+                </div>
                 <!-- 顯示生理範圍的按鈕 -->
                 <button id="vitalSignBtn" class="vital-btn">顯示生理素質範圍</button>
                 <!-- 生理範圍內容 -->
@@ -1309,12 +1787,15 @@
                         <li><strong>瞳孔大小：</strong> 約 2 - 4 mm，對光反應靈敏</li>
                     </ul>
                 </div>
+                
             </div>
         </div>
         <!-- Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="./js/script.js"></script>
-        <script src="./js/ER.js"></script>
+        <script src="./js/ER_me.js"></script>
+        <script src="./js/ER_do.js"></script>
+        <script src="./js/medicine.js"></script>
 </body>
 
 </html>
