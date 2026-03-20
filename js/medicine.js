@@ -172,3 +172,136 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMedBtn);
     else initMedBtn();
 })();
+
+// --- [病例小助手合併區] ---
+
+// 1. 強制掛載全域函式
+window.openCaseAssistant = function (e) {
+    if (e) e.preventDefault();
+
+    // 獲取所有可能干擾的 UI 元素
+    const details = document.getElementById('injuryDetails');
+    const sopDisclaimer = document.getElementById('sopDisclaimerContainer');
+    const injuryModal = document.getElementById('injuryModal');
+
+    // --- 新增這兩行來隱藏 SOP 選取框和按鈕 ---
+    const injurySelect = document.getElementById('injurySelect');
+    const vitalSignBtn = document.getElementById('vitalSignBtn');
+    if (injurySelect) injurySelect.style.display = 'none';
+    if (vitalSignBtn) vitalSignBtn.style.display = 'none';
+    // ---------------------------------------
+
+    if (injuryModal) injuryModal.style.display = 'flex';
+    if (sopDisclaimer) sopDisclaimer.style.display = 'none';
+
+    const bodyParts = ["頭部", "頸部", "胸部", "腹部", "背部", "左手臂", "右手臂", "左腿部", "右腿部"];
+    let partsHtml = bodyParts.map(part => `
+        <div style="display:flex; align-items:center; gap:5px;">
+            <input type="checkbox" name="caseArea" value="${part}" id="part_${part}" style="width:16px; height:16px; cursor:pointer;">
+            <label for="part_${part}" style="font-size:0.85rem; cursor:pointer; margin:0;">${part}</label>
+        </div>
+    `).join('');
+
+    details.innerHTML = `
+        <div class="clinical-dashboard slide-in">
+            <div class="status-header" style="background: #4c51bf; padding: 15px; color: white; border-radius: 8px;">
+                <h2 style="margin:0; font-size: 1.2rem;"><i class="fas fa-file-medical"></i> 病例紀錄助手 (多選版)</h2>
+            </div>
+            
+            <div class="panel" style="padding: 20px; background: white; border: 1px solid #e2e8f0; color: #333; margin-top:10px;">
+                <div style="text-align: left;">
+                    <div>
+                        <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">受傷原因</label>
+                        <select id="caseReason" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+                            <option>跌倒/擦撞</option><option>車輛爆炸</option><option>刀械/銳器割傷</option>
+                            <option>槍擊</option><option>車禍撞擊</option><option>車內碰撞</option><option>高處墜落</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px; text-align: left; padding:10px; background:#f8fafc; border-radius:6px; border:1px solid #edf2f7;">
+                    <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:8px; color:#2d3748;">受傷部位 (可多選)</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                        ${partsHtml}
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; margin-top:15px;">
+                    <div>
+                        <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">傷勢類型</label>
+                        <select id="caseType" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+                            <option>擦挫傷</option><option>淺 II 度燒燙傷</option><option>撕裂傷</option>
+                            <option>穿透槍傷(無傷及骨頭)</option><option>輕度槍傷(僅擦傷表皮)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-top:15px; text-align: left;">
+                    <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">對應處置流程</label>
+                    <select id="caseActionSet" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
+                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】擦挫傷流程</option>
+                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除焦黑組織, 塗抹燒燙傷藥膏, 無菌敷料覆蓋">【處置】淺 II 度燒燙傷流程</option>
+                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除壞死組織, 縫合, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】撕裂傷流程</option>
+                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 擴大傷口並清理彈道通道, 移除異物及殘留金屬碎片, 使用生理食鹽水與抗生素溶液沖洗, 縫合患部, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】穿透槍傷流程</option>
+                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】輕度槍傷流程</option>
+                    </select>
+                </div>
+
+                <button type="button" onclick="window.generateCaseReport()" style="width:100%; margin-top:15px; padding:12px; background:#4c51bf; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
+                    <i class="fas fa-magic"></i> 生成病例報告
+                </button>
+            </div>
+
+            <div id="caseResultArea" style="display:none; margin-top:15px;">
+                <div style="padding:15px; background:#f7fafc; border: 2px dashed #4c51bf; border-radius: 8px; position: relative; text-align: left;">
+                    <pre id="caseOutput" style="white-space:pre-wrap; margin:0; font-family:monospace; font-size:0.9rem; color:#2d3748; line-height:1.6;"></pre>
+                    <button type="button" onclick="window.copyCaseText()" style="position:absolute; right:10px; top:10px; padding:4px 8px; background:#fff; border:1px solid #cbd5e0; border-radius:4px; cursor:pointer;">複製</button>
+                </div>
+            </div>
+        </div>`;
+};
+
+window.generateCaseReport = function () {
+    const alias = document.getElementById('caseAlias').value;
+    const reason = document.getElementById('caseReason').value;
+    const type = document.getElementById('caseType').value;
+    const rawActions = document.getElementById('caseActionSet').value;
+
+    // --- 處理部位複選邏輯 ---
+    const checkboxes = document.querySelectorAll('input[name="caseArea"]:checked');
+    let selectedParts = [];
+    checkboxes.forEach((cb) => {
+        selectedParts.push(cb.value);
+    });
+
+    // 如果沒選部位，給個預設值
+    const areaText = selectedParts.length > 0 ? selectedParts.join('、') : "全身多處";
+    // ----------------------
+
+    const actionText = rawActions.split(/[,，]/).map(function (s) { return s.trim(); }).join(' → ');
+
+    const report = 
+        "主訴：\n" +
+        "患者因" + reason + "，導致" + areaText + type + "\n\n" +
+        "處置：\n" +
+        actionText;
+
+    document.getElementById('caseOutput').innerText = report;
+    document.getElementById('caseResultArea').style.display = 'block';
+};
+
+window.copyCaseText = function () {
+    const text = document.getElementById('caseOutput').innerText;
+    navigator.clipboard.writeText(text).then(function () {
+        alert("病例已成功複製！");
+    });
+};
+
+// 2. 自動綁定按鈕 (雙重保險)
+const setupBtn = () => {
+    const btn = document.getElementById('caseAssistantBtn');
+    if (btn) btn.onclick = (e) => window.openCaseAssistant(e);
+};
+setupBtn();
+// 如果按鈕是動態生成的，延遲再跑一次
+setTimeout(setupBtn, 1000);
