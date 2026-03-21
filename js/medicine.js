@@ -175,171 +175,190 @@
 
 // --- [病例小助手合併區] ---
 
-// 1. 強制掛載全域函式
 window.openCaseAssistant = function (e) {
     if (e) e.preventDefault();
 
-    // 獲取所有可能干擾的 UI 元素
     const details = document.getElementById('injuryDetails');
-    const sopDisclaimer = document.getElementById('sopDisclaimerContainer');
     const injuryModal = document.getElementById('injuryModal');
-
-    // --- 新增這兩行來隱藏 SOP 選取框和按鈕 ---
+    const sopDisclaimer = document.getElementById('sopDisclaimerContainer');
     const injurySelect = document.getElementById('injurySelect');
     const vitalSignBtn = document.getElementById('vitalSignBtn');
+
     if (injurySelect) injurySelect.style.display = 'none';
     if (vitalSignBtn) vitalSignBtn.style.display = 'none';
-    // ---------------------------------------
-
     if (injuryModal) injuryModal.style.display = 'flex';
     if (sopDisclaimer) sopDisclaimer.style.display = 'none';
 
     const bodyParts = ["頭部", "頸部", "胸部", "腹部", "背部", "左手臂", "右手臂", "左腿部", "右腿部"];
+
     let partsHtml = bodyParts.map(part => `
-        <div style="display:flex; align-items:center; gap:5px;">
-            <input type="checkbox" name="caseArea" value="${part}" id="part_${part}" style="width:16px; height:16px; cursor:pointer;">
-            <label for="part_${part}" style="font-size:0.85rem; cursor:pointer; margin:0;">${part}</label>
+        <div style="display: grid; griwwwwd-template-columns: 80px 1fr; gap: 10px; align-items: center; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #f0f4f8;">
+            <label style="font-size:1rem; font-weight:bold; color:#2d3748;">${part}</label>
+            <select name="partInjury" data-part="${part}" style="width:100%; padding:6px; border:1px solid #cbd5e0; border-radius:4px; font-size:1rem; background:#fff;">
+                <option value="">-- 無 --</option>
+                <option value="擦挫傷">擦挫傷</option>
+                <option value="銳器劃傷">銳器劃傷</option>
+                <option value="撕裂傷">撕裂傷</option>
+                <option value="骨折">骨折</option>
+                <option value="骨裂">骨裂</option>
+                <option value="一度燒燙傷">一度燒燙傷</option>
+                <option value="淺 II 度燒燙傷">淺 II 度燒燙傷</option>
+                <option value="穿透槍傷(無傷及骨頭)">穿透槍傷</option>
+            </select>
         </div>
     `).join('');
 
     details.innerHTML = `
-        <div class="clinical-dashboard slide-in">
-            <div class="status-header" style="background: #2d3748; padding: 15px; color: white; border-radius: 8px;">
-                <h2 style="margin:0; font-size: 1.2rem;"><i class="fas fa-notes-medical"></i> SOAP 病例系統</h2>
+        <div class="clinical-dashboard slide-in" style="width: 900px; max-width: 95vw; margin: auto;">
+            <div class="status-header" style="background: #2d3748; padding: 15px; color: white; border-radius: 8px 8px 0 0; text-align:center;">
+                <h2 style="margin:0; font-size: 1.2rem;"><i class="fas fa-notes-medical"></i> SOAP 智慧病例系統 (橫向寬螢幕版)</h2>
             </div>
             
-            <div class="panel" style="padding: 20px; background: white; border: 1px solid #e2e8f0; color: #333; margin-top:10px;">
-                <div style="margin-bottom:15px; text-align: left;">
-                    <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">S (傷患自述/主訴)</label>
-                    <input type="text" id="caseS" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;" placeholder="例如：我出車禍飛出去，手很痛">
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left;">
-                    <div>
-                        <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">受傷原因</label>
-                        <select id="caseReason" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
-                            <option value="跌倒/擦撞">跌倒/擦撞</option>
-                            <option value="車輛爆炸">車輛爆炸</option>
-                            <option value="刀械/銳器割傷">刀械/銳器割傷</option>
-                            <option value="槍擊">槍擊</option>
-                            <option value="車內碰撞">車內碰撞</option>
-                            <option value="車禍">車禍</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">傷勢類型 (A)</label>
-                        <select id="caseType" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
-                            <option value="擦挫傷">擦挫傷</option>
-                            <option value="銳器劃傷">銳器劃傷</option>
-                            <option value="一度燒燙傷">一度燒燙傷</option>
-                            <option value="淺 II 度燒燙傷">淺 II 度燒燙傷</option>
-                            <option value="撕裂傷">撕裂傷</option>
-                            <option value="穿透槍傷(無傷及骨頭)">穿透槍傷(無傷及骨頭)</option>
-                            <option value="輕度槍傷(僅擦傷表皮)">輕度槍傷(僅擦傷表皮)</option>
-                            <option value="骨折">骨折</option>
-                            <option value="骨裂">骨裂</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="margin-top:15px; text-align: left; padding:10px; background:#f8fafc; border-radius:6px; border:1px solid #edf2f7;">
-                    <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:8px;">受傷部位 (多選)</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                        ${partsHtml}
-                    </div>
-                </div>
+            <div class="panel" style="padding: 20px; background: white; border: 1px solid #e2e8f0; color: #333; border-radius: 0 0 8px 8px;">
                 
-                <div style="margin-top:15px; text-align: left;">
-                    <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">P (處置流程)</label>
-                    <select id="caseActionSet" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
-                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】擦挫傷</option>
-                        <option value="生理食鹽水沖洗傷口, 優碘消毒周圍皮膚, 局部注射利多卡因進行浸潤麻醉, 使用持針器夾取縫合針, 鑷子夾起傷口邊緣皮膚, 進行間斷縫合確保傷口對齊, 切斷縫合線並打結固定, 清理表面血跡, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】銳器劃傷</option>
-                        <option value="以生理食鹽水沖洗, 塗抹燒燙傷藥膏, 保持患部乾燥與散熱, 觀察紅腫情況">【處置】一度燒燙傷</option>
-                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除焦黑組織, 塗抹燒燙傷藥膏, 無菌敷料覆蓋">【處置】淺 II 度燒燙傷</option>
-                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除壞死組織, 縫合, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】撕裂傷</option>
-                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 擴大傷口並清理彈道通道, 移除異物及殘留金屬碎片, 使用生理食鹽水與抗生素溶液沖洗, 縫合患部, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】穿透槍傷</option>
-                        <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】輕度槍傷</option>
-                        <option value="建立靜脈通路, 拍攝 X-Ray 評估, 裝上生理監測儀, 戴上氧氣面罩, 靜脈注射全身麻醉, 使用手術刀切開骨折部位周圍的皮膚, 撐開器撐開骨折部位, 清理傷口，移除碎骨及異物, 使用鋼板和螺釘固定骨折部位, 確認骨骼對位準確, 縫合血管和神經，確保血流通暢, 將切口處的肌肉和組織依層縫合, 縫合皮膚表面, 蓋上紗布並貼牢, 放置石膏或支架固定患肢">【處置】骨折</option>                        
-                        <option value="拍攝 X-Ray 進行影像確認, 患處施以副木固定, 開立止痛藥物, 衛教病人患側嚴禁負重">【處置】骨裂流程</option>
-                    </select>
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px;">
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="text-align: left;">
+                            <label style="font-size:1rem; font-weight:bold; display:block; margin-bottom:5px;">S (傷患主訴)</label>
+                            <input type="text" id="caseS" style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; font-size:1rem;" placeholder="例如：車禍撞到腳">
+                        </div>
+
+                        <div style="text-align: left;">
+                            <label style="font-size:1rem; font-weight:bold; display:block; margin-bottom:5px;">受傷原因</label>
+                            <select id="caseReason" style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; font-size:1rem;">
+                                <option value="">-- 請選擇 --</option>
+                                <option value="跌倒/擦撞">跌倒/擦撞</option>
+                                <option value="車輛爆炸">車輛爆炸</option>
+                                <option value="刀械/銳器割傷">刀械/銳器割傷</option>
+                                <option value="槍擊">槍擊</option>
+                                <option value="車內碰撞">車內碰撞</option>
+                                <option value="車禍">車禍</option>
+                            </select>
+                        </div>
+
+                        <div style="text-align: left; flex-grow: 1;">
+                            <label style="font-size:1rem; font-weight:bold; display:block; margin-bottom:5px;">P (處置預覽)</label>
+                            <div style="padding:15px; background:#f8fafc; border:1px dashed #cbd5e0; border-radius:6px; font-size:0.9rem; color:#718096; line-height:1.4;">
+                                系統將根據右側傷勢自動疊加主、次要處置流程。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: left; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #edf2f7;">
+                        <label style="font-size:1rem; font-weight:bold; display:block; margin-bottom:10px;">A (部位傷勢詳細設定)</label>
+                        <div style="background: white; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e0; max-height: 320px; overflow-y: auto;">
+                            ${partsHtml}
+                        </div>
+                    </div>
                 </div>
 
-                <button type="button" onclick="window.generateCaseReport()" style="width:100%; margin-top:15px; padding:12px; background:#2d3748; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:bold;">
-                    生成 SOAP 病例
-                </button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <button type="button" onclick="window.generateCaseReport()" style="padding:12px; background:#2d3748; color:white; border:none; border-radius:6px; cursor:pointer; font-size:1rem; font-weight:bold;">生成病例報告</button>
+                    <button type="button" onclick="window.closeCaseAssistant()" style="padding:12px; background:#e2e8f0; color:#2d3748; border:none; border-radius:6px; cursor:pointer; font-size:1rem; font-weight:bold;">取消並關閉</button>
+                </div>
             </div>
 
             <div id="caseResultArea" style="display:none; margin-top:15px;">
-                <div style="padding:15px; background:#f7fafc; border: 2px dashed #2d3748; border-radius: 8px; position: relative; text-align: left;">
-                    <pre id="caseOutput" style="white-space:pre-wrap; margin:0; font-family:monospace; font-size:0.9rem; color:#2d3748; line-height:1.6;"></pre>
-                    <button type="button" onclick="window.copyCaseText()" style="position:absolute; right:10px; top:10px; padding:4px 8px; background:#fff; border:1px solid #cbd5e0; border-radius:4px; cursor:pointer;">複製</button>
+                <div style="padding:20px; background:#fff; border: 2px solid #2d3748; border-radius: 8px; position: relative; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <pre id="caseOutput" style="white-space:pre-wrap; margin:0; font-family:monospace; font-size:1rem; color:#2d3748; line-height:1.6;"></pre>
+                    <button type="button" onclick="window.copyCaseText()" style="position:absolute; right:15px; top:15px; padding:6px 12px; background:#2d3748; color:white; border:none; border-radius:4px; cursor:pointer; font-size:0.9rem;">複製文字</button>
                 </div>
             </div>
         </div>`;
 };
-
 window.generateCaseReport = function () {
     const sInput = document.getElementById('caseS');
-    const typeSelect = document.getElementById('caseType');
-    const actionSelect = document.getElementById('caseActionSet');
+    const reasonSelect = document.getElementById('caseReason');
+    const partSelects = document.querySelectorAll('select[name="partInjury"]');
 
-    if (!typeSelect || !actionSelect) return;
-
-    const sText = sInput ? (sInput.value || "患者意識清楚，主訴患處疼痛。") : "患者意識清楚，主訴患處疼痛。";
-    const type = typeSelect.value;
-    const rawActions = actionSelect.value;
-
-    // 處理部位複選
-    const checkboxes = document.querySelectorAll('input[name="caseArea"]:checked');
-    let selectedParts = [];
-    checkboxes.forEach((cb) => { selectedParts.push(cb.value); });
-    const areaText = selectedParts.length > 0 ? selectedParts.join('、') : "全身多處";
-
-    // --- 格式化 P (處置) 與 /me 指令處理 ---
-    const actionArray = rawActions.split(/[,，]/).map(s => s.trim());
-    let actionText = "";
-
-    actionArray.forEach((item, index) => {
-        if (item.startsWith("/me")) {
-            // 如果是指令，直接換行
-            actionText += "\n" + item;
-        } else {
-            // 如果是一般流程，用箭頭連接，但如果是第一個元素不加箭頭
-            const prefix = (actionText === "" || actionText.endsWith("\n")) ? "" : " → ";
-            actionText += prefix + item;
+    let injuryData = [];
+    partSelects.forEach(sel => {
+        if (sel.value !== "") {
+            injuryData.push({ part: sel.getAttribute('data-part'), type: sel.value });
         }
     });
 
-    // --- 強化 O (觀察) 的自動描述邏輯 ---
-    let objectiveDesc = "";
-    if (type === "銳器劃傷") {
-        objectiveDesc = "可見切口平整之裂傷，邊緣整齊，持續滲血中。";
-    } else if (type === "一度燒燙傷") {
-        objectiveDesc = "呈現皮膚泛紅、發熱、輕微腫脹，無水泡。";
-    } else if (type === "骨折") {
-        objectiveDesc = "呈現明顯腫脹、畸形，患處活動受限，觸壓痛極其明顯。";
-    } else if (type === "骨裂") {
-        objectiveDesc = "呈現局部腫脹、壓痛，雖然外觀無明顯畸形但活動時劇痛。";
-    } else {
-        objectiveDesc = "呈現" + type + "樣貌，局部紅腫、滲血。";
+    if (!reasonSelect.value || injuryData.length === 0) {
+        alert("⚠️ 資訊不足：請選擇受傷原因並至少設定一個受傷部位！");
+        return;
     }
 
-    // 組合標準 SOAP 格式
-    const report =
-        "S：患者主訴" + sText + "\n" +
-        "O：觀察到" + areaText + objectiveDesc + "\n" +
-        "A：" + areaText + type + "\n" +
-        "P：" + actionText + "\n(衛教：保持傷口乾燥，避免碰到水，定時換藥，避免劇烈拉扯患處。)";
+    // --- 處置資料庫 (依傷勢自動組合) ---
+    const pLibrary = {
+        "擦挫傷": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋"],
+        "銳器劃傷": ["生理食鹽水沖洗傷口", "優碘消毒", "局部麻醉", "進行傷口縫合術", "蓋上無菌敷料"],
+        "撕裂傷": ["生理食鹽水沖洗傷口", "優碘消毒", "局部麻醉", "進行傷口縫合術", "蓋上無菌敷料"],
+        "骨折": ["建立靜脈通路", "拍攝 X-Ray 評估", "進行骨折復位手術", "施以石膏固定"],
+        "骨裂": ["拍攝 X-Ray 確認", "患處施以副木固定", "給予止痛藥物"],
+        "一度燒燙傷": ["生理食鹽水沖洗降溫", "塗抹燒燙傷藥膏", "保持散熱"],
+        "淺 II 度燒燙傷": ["生理食鹽水沖洗", "清理水泡與焦傷", "塗抹燒燙傷藥膏", "無菌包紮"],
+        "穿透槍傷(無傷及骨頭)": ["以生理食鹽水沖洗", "使用優碘消毒", "局部麻醉", "擴大傷口並清理彈道通道", "移除異物及殘留金屬碎片", "使用生理食鹽水與抗生素溶液沖洗", "縫合患部", "塗抹抗生素藥膏", "無菌敷料覆蓋"],
+        "輕度槍傷(僅擦傷表皮)": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"]  
+    };
 
-    // 顯示結果
+    // 1. 分類傷勢與組合 P 步驟
+    let grouped = {};
+    let pSteps = new Set(); // 使用 Set 自動去重
+
+    injuryData.forEach(item => {
+        // 分類 A
+        if (!grouped[item.type]) grouped[item.type] = [];
+        grouped[item.type].push(item.part);
+
+        // 疊加 P
+        if (pLibrary[item.type]) {
+            pLibrary[item.type].forEach(step => pSteps.add(step));
+        }
+    });
+
+    // 2. 生成 O 與 A
+    let oTexts = [];
+    let aTexts = [];
+    for (let type in grouped) {
+        const parts = grouped[type].join('、');
+        aTexts.push(`${parts}${type}`);
+
+        let desc = "";
+        if (type === "擦挫傷") desc = `${parts}表皮紅腫滲血`;
+        else if (type === "骨折") desc = `${parts}明顯畸形且活動受限`;
+        else if (type === "骨裂") desc = `${parts}觸壓痛劇烈且腫脹`;
+        else desc = `${parts}呈現${type}徵象`;
+        oTexts.push(desc);
+    }
+
+    // 3. 格式化 P
+    let actionText = "";
+    pSteps.forEach(step => {
+        if (step.startsWith("/me")) {
+            actionText += "\n" + step;
+        } else {
+            const prefix = (actionText === "" || actionText.endsWith("\n")) ? "" : " → ";
+            actionText += prefix + step;
+        }
+    });
+
+    // 4. 輸出報告
+    const report =
+        `S：患者主訴${sInput.value || "患處疼痛。"}\n` +
+        `O：檢查發現${oTexts.join("；")}。\n` +
+        `A：${aTexts.join(" 合併 ")} (原因：${reasonSelect.value})\n` +
+        `P：${actionText}\n(衛教：傷口保持乾燥，勿碰水，避免激烈運動。)`;
+
     const resultArea = document.getElementById('caseResultArea');
     const outputField = document.getElementById('caseOutput');
-
     if (resultArea && outputField) {
         outputField.innerText = report;
         resultArea.style.display = 'block';
         resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+};
+
+// 補充：關閉函式
+window.closeCaseAssistant = function () {
+    document.getElementById('injuryModal').style.display = 'none';
+    document.getElementById('injurySelect').style.display = 'block';
+    document.getElementById('vitalSignBtn').style.display = 'block';
 };
 window.copyCaseText = function () {
     const outputField = document.getElementById('caseOutput');
