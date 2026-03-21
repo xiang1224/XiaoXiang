@@ -230,6 +230,7 @@ window.openCaseAssistant = function (e) {
                         <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">傷勢類型 (A)</label>
                         <select id="caseType" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
                             <option value="擦挫傷">擦挫傷</option>
+                            <option value="銳器劃傷">銳器劃傷</option>
                             <option value="一度燒燙傷">一度燒燙傷</option>
                             <option value="淺 II 度燒燙傷">淺 II 度燒燙傷</option>
                             <option value="撕裂傷">撕裂傷</option>
@@ -252,6 +253,7 @@ window.openCaseAssistant = function (e) {
                     <label style="font-size:0.8rem; font-weight:bold; display:block; margin-bottom:5px;">P (處置流程)</label>
                     <select id="caseActionSet" style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px;">
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】擦挫傷</option>
+                        <option value="生理食鹽水沖洗傷口, 優碘消毒周圍皮膚, 局部注射利多卡因進行浸潤麻醉, 使用持針器夾取縫合針, 鑷子夾起傷口邊緣皮膚, 進行間斷縫合確保傷口對齊, 切斷縫合線並打結固定, 清理表面血跡, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】銳器劃傷</option>
                         <option value="以生理食鹽水沖洗, 塗抹燒燙傷藥膏, 保持患部乾燥與散熱, 觀察紅腫情況">【處置】一度燒燙傷</option>
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除焦黑組織, 塗抹燒燙傷藥膏, 無菌敷料覆蓋">【處置】淺 II 度燒燙傷</option>
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除壞死組織, 縫合, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】撕裂傷</option>
@@ -293,12 +295,26 @@ window.generateCaseReport = function () {
     checkboxes.forEach((cb) => { selectedParts.push(cb.value); });
     const areaText = selectedParts.length > 0 ? selectedParts.join('、') : "全身多處";
 
-    // 格式化 P (處置)
-    const actionText = rawActions.split(/[,，]/).map(s => s.trim()).join(' → ');
+    // --- 格式化 P (處置) 與 /me 指令處理 ---
+    const actionArray = rawActions.split(/[,，]/).map(s => s.trim());
+    let actionText = "";
+
+    actionArray.forEach((item, index) => {
+        if (item.startsWith("/me")) {
+            // 如果是指令，直接換行
+            actionText += "\n" + item;
+        } else {
+            // 如果是一般流程，用箭頭連接，但如果是第一個元素不加箭頭
+            const prefix = (actionText === "" || actionText.endsWith("\n")) ? "" : " → ";
+            actionText += prefix + item;
+        }
+    });
 
     // --- 強化 O (觀察) 的自動描述邏輯 ---
     let objectiveDesc = "";
-    if (type === "一度燒燙傷") {
+    if (type === "銳器劃傷") {
+        objectiveDesc = "可見切口平整之裂傷，邊緣整齊，持續滲血中。";
+    } else if (type === "一度燒燙傷") {
         objectiveDesc = "呈現皮膚泛紅、發熱、輕微腫脹，無水泡。";
     } else if (type === "骨折") {
         objectiveDesc = "呈現明顯腫脹、畸形，患處活動受限，觸壓痛極其明顯。";
@@ -310,10 +326,10 @@ window.generateCaseReport = function () {
 
     // 組合標準 SOAP 格式
     const report =
-        "S：患者自訴" + sText + "\n" +
+        "S：患者主訴" + sText + "\n" +
         "O：觀察到" + areaText + objectiveDesc + "\n" +
         "A：" + areaText + type + "\n" +
-        "P：" + actionText + "，並衛教病人患側須避免負重與劇烈活動。";
+        "P：" + actionText + "\n(衛教：保持傷口乾燥，避免碰到水，定時換藥，避免劇烈拉扯患處。)";
 
     // 顯示結果
     const resultArea = document.getElementById('caseResultArea');
