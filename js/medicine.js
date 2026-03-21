@@ -189,7 +189,7 @@ window.openCaseAssistant = function (e) {
     if (injuryModal) injuryModal.style.display = 'flex';
     if (sopDisclaimer) sopDisclaimer.style.display = 'none';
 
-    const bodyParts = ["頭部", "頸部", "胸部", "腹部", "背部", "左手臂", "右手臂", "左腿部", "右腿部"];
+    const bodyParts = ["全身", "頭部", "頸部", "胸部", "腹部", "背部", "左手臂", "右手臂", "左腿部", "右腿部"];
 
     let partsHtml = bodyParts.map(part => `
         <div style="display: grid; griwwwwd-template-columns: 80px 1fr; gap: 10px; align-items: center; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #f0f4f8;">
@@ -204,6 +204,7 @@ window.openCaseAssistant = function (e) {
                 <option value="一度燒燙傷">一度燒燙傷</option>
                 <option value="淺 II 度燒燙傷">淺 II 度燒燙傷</option>
                 <option value="穿透槍傷(無傷及骨頭)">穿透槍傷</option>
+                <option value="低血糖">低血糖</option>
             </select>
         </div>
     `).join('');
@@ -229,11 +230,13 @@ window.openCaseAssistant = function (e) {
                             <select id="caseReason" style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px; font-size:1rem;">
                                 <option value="">-- 請選擇 --</option>
                                 <option value="跌倒/擦撞">跌倒/擦撞</option>
-                                <option value="車輛爆炸">車輛爆炸</option>
+                                <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
                                 <option value="刀械/銳器割傷">刀械/銳器割傷</option>
+                                <option value="車輛爆炸">車輛爆炸</option>
                                 <option value="槍擊">槍擊</option>
                                 <option value="車內碰撞">車內碰撞</option>
                                 <option value="車禍">車禍</option>
+                                <option value="低血糖">低血糖</option>
                             </select>
                         </div>
 
@@ -294,7 +297,8 @@ window.generateCaseReport = function () {
         "一度燒燙傷": ["生理食鹽水沖洗降溫", "塗抹燒燙傷藥膏", "保持散熱"],
         "淺 II 度燒燙傷": ["生理食鹽水沖洗", "清理水泡與焦傷", "塗抹燒燙傷藥膏", "無菌包紮"],
         "穿透槍傷(無傷及骨頭)": ["以生理食鹽水沖洗", "使用優碘消毒", "局部麻醉", "擴大傷口並清理彈道通道", "移除異物及殘留金屬碎片", "使用生理食鹽水與抗生素溶液沖洗", "縫合患部", "塗抹抗生素藥膏", "無菌敷料覆蓋"],
-        "輕度槍傷(僅擦傷表皮)": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"]  
+        "輕度槍傷(僅擦傷表皮)": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"],  
+        "低血糖": ["測量血糖值進行確認", "給予葡萄糖濃縮液"]
     };
 
     // 1. 分類傷勢與組合 P 步驟
@@ -323,6 +327,7 @@ window.generateCaseReport = function () {
         if (type === "擦挫傷") desc = `${parts}表皮紅腫滲血`;
         else if (type === "骨折") desc = `${parts}明顯畸形且活動受限`;
         else if (type === "骨裂") desc = `${parts}觸壓痛劇烈且腫脹`;
+        else if (type === "低血糖") desc = `${parts}意識模糊、冒冷汗且手腳發抖`;
         else desc = `${parts}呈現${type}徵象`;
         oTexts.push(desc);
     }
