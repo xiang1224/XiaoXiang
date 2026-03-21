@@ -223,6 +223,7 @@ window.openCaseAssistant = function (e) {
                             <option value="刀械/銳器割傷">刀械/銳器割傷</option>
                             <option value="槍擊">槍擊</option>
                             <option value="車內碰撞">車內碰撞</option>
+                            <option value="車禍">車禍</option>
                         </select>
                     </div>
                     <div>
@@ -234,6 +235,8 @@ window.openCaseAssistant = function (e) {
                             <option value="撕裂傷">撕裂傷</option>
                             <option value="穿透槍傷(無傷及骨頭)">穿透槍傷(無傷及骨頭)</option>
                             <option value="輕度槍傷(僅擦傷表皮)">輕度槍傷(僅擦傷表皮)</option>
+                            <option value="骨折">骨折</option>
+                            <option value="骨裂">骨裂</option>
                         </select>
                     </div>
                 </div>
@@ -254,6 +257,8 @@ window.openCaseAssistant = function (e) {
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 剪除壞死組織, 縫合, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】撕裂傷</option>
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 局部麻醉, 擴大傷口並清理彈道通道, 移除異物及殘留金屬碎片, 使用生理食鹽水與抗生素溶液沖洗, 縫合患部, 塗抹抗生素藥膏, 無菌敷料覆蓋">【處置】穿透槍傷</option>
                         <option value="以生理食鹽水沖洗, 使用優碘消毒, 塗抹抗生素藥膏, 無菌敷料覆蓋, 冰敷">【處置】輕度槍傷</option>
+                        <option value="建立靜脈通路, 拍攝 X-Ray 評估, 裝上生理監測儀, 戴上氧氣面罩, 靜脈注射全身麻醉, 使用手術刀切開骨折部位周圍的皮膚, 撐開器撐開骨折部位, 清理傷口，移除碎骨及異物, 使用鋼板和螺釘固定骨折部位, 確認骨骼對位準確, 縫合血管和神經，確保血流通暢, 將切口處的肌肉和組織依層縫合, 縫合皮膚表面, 蓋上紗布並貼牢, 放置石膏或支架固定患肢">【處置】骨折</option>                        
+                        <option value="拍攝 X-Ray 進行影像確認, 患處施以副木固定, 開立止痛藥物, 衛教病人患側嚴禁負重">【處置】骨裂流程</option>
                     </select>
                 </div>
 
@@ -272,11 +277,17 @@ window.openCaseAssistant = function (e) {
 };
 
 window.generateCaseReport = function () {
-    const sText = document.getElementById('caseS').value || "患者意識清楚，主訴患處疼痛。";
-    const type = document.getElementById('caseType').value;
-    const rawActions = document.getElementById('caseActionSet').value;
+    const sInput = document.getElementById('caseS');
+    const typeSelect = document.getElementById('caseType');
+    const actionSelect = document.getElementById('caseActionSet');
 
-    // 處理部位
+    if (!typeSelect || !actionSelect) return;
+
+    const sText = sInput ? (sInput.value || "患者意識清楚，主訴患處疼痛。") : "患者意識清楚，主訴患處疼痛。";
+    const type = typeSelect.value;
+    const rawActions = actionSelect.value;
+
+    // 處理部位複選
     const checkboxes = document.querySelectorAll('input[name="caseArea"]:checked');
     let selectedParts = [];
     checkboxes.forEach((cb) => { selectedParts.push(cb.value); });
@@ -285,22 +296,35 @@ window.generateCaseReport = function () {
     // 格式化 P (處置)
     const actionText = rawActions.split(/[,，]/).map(s => s.trim()).join(' → ');
 
-    // 組合 SOAP 內容
+    // --- 強化 O (觀察) 的自動描述邏輯 ---
+    let objectiveDesc = "";
+    if (type === "一度燒燙傷") {
+        objectiveDesc = "呈現皮膚泛紅、發熱、輕微腫脹，無水泡。";
+    } else if (type === "骨折") {
+        objectiveDesc = "呈現明顯腫脹、畸形，患處活動受限，觸壓痛極其明顯。";
+    } else if (type === "骨裂") {
+        objectiveDesc = "呈現局部腫脹、壓痛，雖然外觀無明顯畸形但活動時劇痛。";
+    } else {
+        objectiveDesc = "呈現" + type + "樣貌，局部紅腫、滲血。";
+    }
+
+    // 組合標準 SOAP 格式
     const report =
-        "S：患者主訴" + sText + "\n" +
-        "O：觀察到" + areaText + "呈現" + type + "樣貌，局部紅腫、滲血。\n" +
+        "S：患者自訴" + sText + "\n" +
+        "O：觀察到" + areaText + objectiveDesc + "\n" +
         "A：" + areaText + type + "\n" +
         "P：" + actionText + "，並衛教病人患側須避免負重與劇烈活動。";
 
+    // 顯示結果
     const resultArea = document.getElementById('caseResultArea');
     const outputField = document.getElementById('caseOutput');
 
     if (resultArea && outputField) {
         outputField.innerText = report;
         resultArea.style.display = 'block';
+        resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 };
-
 window.copyCaseText = function () {
     const outputField = document.getElementById('caseOutput');
     if (!outputField) return alert("找不到複製目標");
