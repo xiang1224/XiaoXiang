@@ -49,16 +49,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // B. 點擊藥典查詢
     if (medSearchBtn) {
-        medSearchBtn.onclick = () => {
-            closeAllModals(); // 這是你原本的輔助函式
+        medSearchBtn.onclick = (e) => {
+            e.preventDefault();
+            closeAllModals();
 
-            // 【新增：強制隱藏 SOP 免責聲明容器】
+            // 隱藏 SOP 專用元素，避免藥典內容被擋住
             const sopDisclaimer = document.getElementById('sopDisclaimerContainer');
-            if (sopDisclaimer) {
-                sopDisclaimer.style.display = "none";
-            }
+            const injurySelect = document.getElementById('injurySelect');
+            const vsBtn = document.getElementById('vitalSignBtn');
 
-            // 呼叫 medicine.js 中的全域函式
+            if (sopDisclaimer) sopDisclaimer.style.display = "none";
+            if (injurySelect) injurySelect.style.display = "none";
+            if (vsBtn) vsBtn.style.display = "none";
+
+            // 呼叫 All-in-One JS 的功能
             if (window.openMedicineSystem) {
                 window.openMedicineSystem();
             } else {
@@ -66,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
-
+    
     // C. 版本選擇邏輯 (SOP 專用)
     const selectVersion = (fileName) => {
         versionModal.style.display = "none";
@@ -86,11 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sopDisclaimer) sopDisclaimer.style.display = 'block';
 
         // 2. 重新綁定生理資訊按鈕 (保持你的邏輯)
-        if (vitalSignBtn && vitalSigns) {
+        if (vitalSignBtn) {
             vitalSignBtn.onclick = (e) => {
                 e.preventDefault();
+                e.stopPropagation(); // 重點：防止事件向上傳遞觸發 All-in-One 的監聽
                 const isHidden = (vitalSigns.style.display === 'none' || !vitalSigns.style.display);
                 vitalSigns.style.display = isHidden ? 'block' : 'none';
+                console.log("[System] 生理參數切換:", isHidden ? "顯示" : "隱藏");
             };
         }
 
