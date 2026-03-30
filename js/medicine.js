@@ -50,16 +50,29 @@
         pLibrary: {
             "擦挫傷": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"],
             "銳器劃傷": ["生理食鹽水沖洗傷口", "優碘消毒", "局部麻醉", "進行傷口縫合術", "蓋上無菌敷料"],
+            "皮下瘀青": ["患處施以冰敷減輕腫脹"],
             "撕裂傷": ["生理食鹽水沖洗傷口", "優碘消毒", "局部麻醉", "進行傷口縫合術", "蓋上無菌敷料"],
             "扭傷": ["/me 觸診確認韌帶受損情形", "患部施以彈性繃帶加壓包紮", "冰敷處理", "衛教 RICE 原則"],
             "骨折": ["建立靜脈通路", "拍攝 X-Ray 評估", "進行骨折復位手術", "施以石膏固定"],
             "骨裂": ["拍攝 X-Ray 確認", "患處施以副木固定", "給予止痛藥物"],
             "一度燒燙傷": ["生理食鹽水沖洗降溫", "塗抹燒燙傷藥膏", "保持散熱"],
             "淺 II 度燒燙傷": ["生理食鹽水沖洗", "清理水泡與焦傷", "塗抹燒燙傷藥膏", "無菌包紮"],
+            "防彈衣後鈍傷 (BABT)": ["評估胸壁挫傷程度與呼吸音","局部冰敷 (Cold Compress) 15-20 分鐘"],
             "穿透槍傷(無傷及骨頭)": ["以生理食鹽水沖洗", "使用優碘消毒", "局部麻醉", "擴大傷口並清理彈道通道", "移除異物及殘留金屬碎片", "使用生理食鹽水與抗生素溶液沖洗", "縫合患部", "塗抹抗生素藥膏", "無菌敷料覆蓋"],
             "輕度槍傷(僅擦傷表皮)": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"],
             "低血糖": ["測量血糖值進行確認", "給予葡萄糖濃縮液"],
             "嗆水": ["協助患者採取側臥位", "拍背協助排出水分", "給予高濃度氧氣治療", "持續監測血氧飽和度(SpO2)", "觀察有無吸入性肺炎徵兆"]
+        },
+        eLibrary: {
+            "擦挫傷": "傷口保持乾燥，每日更換敷料，觀察有無紅腫熱痛等感染徵兆。",
+            "銳器劃傷": "傷口切勿碰水，若縫合處有滲血或裂開請立即回診。",
+            "皮下瘀青": "24小時內持續冰敷以利消腫，之後可改熱敷促進血液吸收。",
+            "扭傷": "遵循 RICE 原則，48小時內勿推拿，患部儘量抬高於心臟位置。",
+            "骨折": "石膏不可弄濕，觀察末梢手指/腳趾是否有發紫或麻痺現象。",
+            "防彈衣後鈍傷 (BABT)": "24小時內持續冰敷；若出現呼吸困難、劇烈腹痛或咳血，請立即急診。",
+            "低血糖": "隨身攜帶糖果，避免空腹運動，若反覆發作請至門診追蹤。",
+            "嗆水": "觀察 24 小時內有無咳嗽加劇或發燒，預防遲發性吸入性肺炎。",
+            "default": "傷口保持乾燥，勿碰水，避免激烈運動，觀察後續變化。"
         },
         wiki: {
             // --- 檢查與評估 (Check/Exam) ---
@@ -155,6 +168,20 @@
             "LMA": {
                 cat: "急救",
                 desc: "喉罩氣道。當插管困難 (Difficult Airway) 時的替代方案，操作較簡單，不需使用喉鏡。"
+            },
+
+            // --- 醫療處置與藥理 (Medical Treatment & Pharmacology) ---
+            "Anti-": {
+                cat: "臨床",
+                desc: "抗生素 (Antibiotics) 之簡稱。用於預防或治療細菌性感染。臨床給藥前必須確認病人有無藥物過敏史（Allergy History），必要時須執行皮膚過敏試驗（Skin Test）。",
+            },
+            "PCA": {
+                cat: "臨床",
+                desc: "病人自控式止痛 (Patient-Controlled Analgesia)。一種經由靜脈注射的止痛給藥裝置，預先設定好安全劑量與鎖定時間（Lockout interval），由患者根據疼痛程度自行按壓給藥，可維持穩定的血中藥物濃度並減少爆發性疼痛。",
+            },
+            "Allergy": {
+                cat: "臨床",
+                desc: "過敏反應。機體對藥物或外來物質產生的免疫異常反應。嚴重者可能導致喉頭水腫、支氣管痙攣及過敏性休克，需立即給予 Epinephrine 與類固醇治療。",
             }
             
         }
@@ -220,11 +247,60 @@
     };
 
     window.switchMedTab = function (cat) {
+        // 1. 處理按鈕 Active 樣式切換
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => {
+            // 這裡判斷 onclick 的參數是否包含當前 cat
+            if (btn.getAttribute('onclick').includes(`'${cat}'`)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // 2. 清空搜尋框 (切換 Tab 時通常希望重置搜尋)
+        document.getElementById('medSearchInput').value = "";
+
+        // 3. 渲染資料
         const content = document.getElementById('medTabContent');
         const data = (cat === 'all') ? Object.values(MEDICAL_DATA.drugs).flat() : (MEDICAL_DATA.drugs[cat] || []);
         content.innerHTML = window.generateMedTable(data);
     };
 
+    window.filterMedication = function () {
+        const searchTerm = document.getElementById('medSearchInput').value.toLowerCase();
+        const content = document.getElementById('medTabContent');
+
+        // 1. 取得所有藥物
+        const allDrugs = Object.values(MEDICAL_DATA.drugs).flat();
+
+        // 2. 執行過濾 (修正欄位名稱：enName, cnName, use, sideEffect)
+        const filteredData = allDrugs.filter(drug => {
+            return (
+                (drug.enName && drug.enName.toLowerCase().includes(searchTerm)) ||
+                (drug.cnName && drug.cnName.toLowerCase().includes(searchTerm)) ||
+                (drug.use && drug.use.toLowerCase().includes(searchTerm)) ||
+                (drug.sideEffect && drug.sideEffect.toLowerCase().includes(searchTerm))
+            );
+        });
+
+        // 3. 處理標籤樣式
+        if (searchTerm !== "") {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        // 4. 渲染結果
+        if (filteredData.length > 0) {
+            content.innerHTML = window.generateMedTable(filteredData);
+        } else {
+            content.innerHTML = `
+            <div style="padding:40px; text-align:center; color:#a0aec0;">
+                <i class="fas fa-search" style="font-size:2rem; display:block; margin-bottom:10px;"></i>
+                找不到與「${searchTerm}」相關的藥物資料
+            </div>`;
+        }
+    };
+    
     window.generateMedTable = function (data) {
         let html = `<table class="med-table"><thead><tr><th>藥名</th><th>用途</th><th>劑量</th><th>途徑</th></tr></thead><tbody>`;
         data.forEach(item => {
@@ -267,17 +343,17 @@
                             <input type="text" id="caseS" style="width:100%; padding:8px; margin-bottom:15px;" placeholder="例如：胸口中彈">
                             <label>原因</label>
                             <select id="caseReason" style="width:100%; padding:8px;">
-                                <option value="">-- 請選擇 --</option>
-                                <option value="跌倒/擦撞">跌倒/擦撞</option>
-                                <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
-                                <option value="刀械/銳器割傷">刀械/銳器割傷</option>
-                                <option value="車輛爆炸">車輛爆炸</option>
-                                <option value="槍擊">槍擊</option>
-                                <option value="車內碰撞">車內碰撞</option>
-                                <option value="車禍">車禍</option>
-                                <option value="低血糖">低血糖</option>
-                                <option value="扭傷">扭傷</option>
-                                <option value="嗆水">嗆水 (呼吸道)</option>
+                            <option value="">-- 請選擇 --</option>
+                            <option value="跌倒/擦撞">跌倒/擦撞</option>
+                            <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
+                            <option value="刀械/銳器割傷">刀械/銳器割傷</option>
+                            <option value="車輛爆炸">車輛爆炸</option>
+                            <option value="槍擊">槍擊</option>
+                            <option value="車內碰撞">車內碰撞</option>
+                            <option value="車禍">車禍</option>
+                            <option value="低血糖">低血糖</option>
+                            <option value="扭傷">扭傷</option>
+                            <option value="嗆水">嗆水 (呼吸道)</option>
                             </select>
                         </div>
                         <div style="background:#f8fafc; padding:10px; border-radius:8px;">
@@ -306,7 +382,10 @@
             "扭傷": `${part}關節腫脹、活動時劇痛且皮下瘀血`,
             "嗆水": `劇烈咳嗽、呼吸急促且肺部有囉音`,
             "銳器劃傷": `${part}傷口邊緣整齊並持續滲血`,
-            "撕裂傷": `${part}傷口不規則裂開且有深層組織外露`
+            "撕裂傷": `${part}傷口不規則裂開且有深層組織外露`,
+            "槍擊 (防彈衣)": `${part}受擊處呈現圓形挫傷、明顯瘀血及深層壓痛`,
+            // 新增槍擊鈍傷描述
+            "皮下瘀青": `${part}呈現圓形大面積瘀血，觸診局部壓痛明顯`
         };
         return mapping[type] || `${part}呈現${type}徵象`;
     };
@@ -330,13 +409,16 @@
         let aTexts = [];
         let oTexts = [];
         let pSteps = new Set();
+        let selectedTypes = []; // 用於後續判定衛教內容
 
         for (let type in grouped) {
             const parts = grouped[type].join('、');
+            selectedTypes.push(type); // 收集所有傷勢類型
+
             // 生成 Assessment (A)
             aTexts.push(`${parts}${type}`);
 
-            // 生成 Objective (O) - 使用剛才建立的輔助函式
+            // 生成 Objective (O)
             oTexts.push(getClinicalSign(parts, type));
 
             // 收集 Plan (P)
@@ -345,14 +427,34 @@
             }
         }
 
+        // --- 新增：動態衛教邏輯 (Education Logic) ---
+        let eduText = MEDICAL_DATA.eLibrary["default"];
+
+        // 優先權 1：若原因是「槍擊 (防彈衣)」，強制使用 BABT 衛教
+        if (reason === "槍擊 (防彈衣)") {
+            eduText = MEDICAL_DATA.eLibrary["防彈衣後鈍傷 (BABT)"];
+        }
+        // 優先權 2：若有重大傷勢 (如骨折、嗆水)，優先顯示該衛教
+        else if (selectedTypes.includes("骨折")) {
+            eduText = MEDICAL_DATA.eLibrary["骨折"];
+        } else if (selectedTypes.includes("嗆水")) {
+            eduText = MEDICAL_DATA.eLibrary["嗆水"];
+        }
+        // 優先權 3：抓取選中的第一個傷勢對應的衛教
+        else if (selectedTypes.length > 0) {
+            const primaryType = selectedTypes[0];
+            eduText = MEDICAL_DATA.eLibrary[primaryType] || MEDICAL_DATA.eLibrary["default"];
+        }
+
         const actionText = Array.from(pSteps).join(" → ");
         const reasonText = reason ? ` (原因：${reason})` : "";
 
+        // 修改 report 模板中的衛教部分
         const report = `S：主訴${sVal}
 O：檢查發現${oTexts.join("；")}
 A：${aTexts.join(" 合併 ")}${reasonText}
 P：${actionText}
-(衛教：傷口保持乾燥，勿碰水，避免激烈運動。)`;
+(衛教：${eduText})`;
 
         document.getElementById('caseOutput').innerText = report;
         document.getElementById('caseResultArea').style.display = 'block';
@@ -406,11 +508,13 @@ P：${actionText}
     // 1. 定義顏色對應表 (建議放在 render 函式外面或內部)
     const getCatColor = (cat) => {
         const colors = {
-            "檢查": "#17a2b8", // 青藍
-            "急救": "#dc3545", // 紅
-            "臨床": "#6c757d", // 灰
-            "病理": "#fd7e14", // 橘
-            "監測": "#6610f2"  // 紫
+            "檢查": "#17a2b8",
+            "急救": "#dc3545",
+            "臨床": "#6c757d",
+            "病理": "#fd7e14",
+            "監測": "#6610f2",
+            "手術": "#28a745",
+            "心理": "#ffc107"
         };
         return colors[cat] || "#212529";
     };
