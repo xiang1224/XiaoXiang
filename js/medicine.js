@@ -67,14 +67,19 @@
         eLibrary: {
             "擦挫傷": "傷口保持乾燥，每日更換敷料，觀察有無紅腫熱痛等感染徵兆。",
             "銳器劃傷": "傷口切勿碰水，若縫合處有滲血或裂開請立即回診。",
+            "撕裂傷": "傷口切勿碰水，觀察縫合處是否紅腫，若有高燒現象請立即回診。",
             "皮下瘀青": "24小時內持續冰敷以利消腫，之後可改熱敷促進血液吸收。",
             "扭傷": "遵循 RICE 原則，48小時內勿推拿，患部儘量抬高於心臟位置。",
             "骨折": "石膏不可弄濕，觀察末梢手指/腳趾是否有發紫或麻痺現象。",
+            "骨裂": "患部需固定並減少負重，初期可適度冰敷減輕腫脹與疼痛。",
+            "一度燒燙傷": "患部持續沖水降溫，塗抹藥膏後保持通風，切勿塗抹牙膏或凡士林。",
+            "淺 II 度燒燙傷": "請勿自行刺破水泡以防感染，保持敷料清潔，若水泡過大請回診處理。",
             "防彈衣後鈍傷 (BABT)": "24小時內持續冰敷；若出現呼吸困難、劇烈腹痛或咳血，請立即急診。",
+            "穿透槍傷(無傷及骨頭)": "傷口嚴禁碰水，按時服用抗生素，留意有無滲血或化膿情形。",
+            "輕度槍傷(僅擦傷表皮)": "保持傷口乾燥，每日換藥一次，觀察是否有異常紅腫。",
             "低血糖": "隨身攜帶糖果，避免空腹運動，若反覆發作請至門診追蹤。",
             "嗆水": "觀察 24 小時內有無咳嗽加劇或發燒，預防遲發性吸入性肺炎。",
-            "輕微觸電": "傷口若出現水泡請勿自行弄破以免感染；未來24小時若有心跳不規律或胸悶請務必就醫。",
-            "default": "傷口保持乾燥，勿碰水，避免激烈運動，觀察後續變化。"
+            "輕微觸電": "傷口若出現水泡請勿自行弄破以免感染；未來24小時若有心跳不規律或胸悶請務必就醫。"
         },
         wiki: {
             // --- 檢查與評估 (Check/Exam) ---
@@ -327,62 +332,102 @@
         `;
 
         let partsHtml = parts.map(part => `
-            <div style="display: grid; grid-template-columns: 80px 1fr; gap: 10px; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom:5px;">
-                <label style="font-weight:bold;">${part}</label>
-                <select name="partInjury" data-part="${part}" style="width:100%; padding:5px; border-radius:4px;">${partOptions}</select>
+            <div style="display: grid; grid-template-columns: 75px 1fr; gap: 12px; align-items: center; margin-bottom: 10px; padding: 10px; background: #fff; border-radius: 8px; border: 2px solid #e2e8f0;">
+                <label style="font-weight: 700; color: #4a5568; font-size: 1rem;">${part}</label>
+                <select name="partInjury" data-part="${part}" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 1rem; color: #2d3748; background: #fff; outline: none; cursor: pointer;">
+                    ${partOptions}
+                </select>
             </div>
         `).join('');
 
         details.innerHTML = `
-            <div class="clinical-dashboard slide-in" style="width: 850px; max-width: 95vw; margin: auto;">
-                <div class="status-header" style="background: #2d3748; padding: 15px; color: white; border-radius: 8px 8px 0 0; text-align:center;">
-                    <h2 style="margin:0;"><i class="fas fa-notes-medical"></i> SOAP 智慧病例系統</h2>
-                </div>
-                <div class="panel" style="background: white; padding: 20px; border-radius: 0 0 8px 8px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div>
-                            <label>S (傷患主訴)</label>
-                            <input type="text" id="caseS" style="width:100%; padding:8px; margin-bottom:15px;" placeholder="例如：胸口中彈">
-                            <label>原因</label>
-                            <select id="caseReason" style="width:100%; padding:8px;">
-                            <option value="">-- 請選擇 --</option>
-                            <option value="跌倒/擦撞">跌倒/擦撞</option>
-                            <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
-                            <option value="刀械/銳器割傷">刀械/銳器割傷</option>
-                            <option value="車輛爆炸">車輛爆炸</option>
-                            <option value="槍擊">槍擊</option>
-                            <option value="車內碰撞">車內碰撞</option>
-                            <option value="車禍">車禍</option>
-                            <option value="低血糖">低血糖</option>
-                            <option value="扭傷">扭傷</option>
-                            <option value="嗆水">嗆水 (呼吸道)</option>
-                            <option value="動物咬傷">動物咬傷</option>
-                            <option value="輕微觸電">輕微觸電</option>
+        <div class="clinical-dashboard slide-in" style="width: 880px; max-width: 95vw; margin: auto; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;">
+            <div class="status-header" style="background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); padding: 20px; color: white;  text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                <h2 style="margin:0; font-size: 1.5rem; letter-spacing: 1.5px;"><i class="fas fa-file-medical-alt" style="margin-right: 10px;"></i> SOAP 智慧病例診斷系統</h2>
+            </div>
+
+            <div class="panel" style="background: #f7fafc; padding: 25px; border-radius: 0 0 12px 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+                <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 25px;">
+                    
+                    <div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 8px;">S (傷患主訴)</label>
+                            <input type="text" id="caseS" style="width:100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s;" placeholder="例如：胸口中彈、意識不清">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 8px;">受傷原因</label>
+                            <select id="caseReason" style="width:100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer;">
+                                <option value="">-- 請選擇受傷環境 --</option>
+                                <option value="跌倒/擦撞">跌倒/擦撞</option>
+                                <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
+                                <option value="刀械/銳器割傷">刀械/銳器割傷</option>
+                                <option value="車輛爆炸">車輛爆炸</option>
+                                <option value="槍擊">槍擊</option>
+                                <option value="車內碰撞">車內碰撞</option>
+                                <option value="車禍">車禍</option>
+                                <option value="低血糖">低血糖</option>
+                                <option value="扭傷">扭傷</option>
+                                <option value="嗆水">嗆水 (呼吸道)</option>
+                                <option value="動物咬傷">動物咬傷</option>
+                                <option value="輕微觸電">輕微觸電</option>
                             </select>
-                            <div style="margin-top:15px;">
-    <label style="display:block; margin-bottom:5px;">額外處置 / 疫苗</label>
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; background: #fff; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-        <label><input type="checkbox" name="extraTreat" value="施打破傷風疫苗 (Tetanus)"> 破傷風</label>
-        <label><input type="checkbox" name="extraTreat" value="施打狂犬病疫苗 (Rabies)"> 狂犬病</label>
-    </div>
-</div>
                         </div>
-                        
-                        <div style="background:#f8fafc; padding:10px; border-radius:8px;">
-                            <label>A (傷勢設定)</label>
-                            <div style="max-height: 250px; overflow-y: auto; background:white; padding:10px; border:1px solid #ddd;">${partsHtml}</div>
+
+                        <div style="background: #edf2f7; padding: 15px; border-radius: 10px; border: 1px dashed #cbd5e0;">
+                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 10px;"><i class="fas fa-syringe"></i> 額外處置 / 疫苗項目</label>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <label style="background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e0; cursor: pointer; user-select: none; font-size: 0.9rem;">
+                                    <input type="checkbox" name="extraTreat" value="施打破傷風疫苗 (Tetanus)" style="margin-right: 5px;"> 破傷風
+                                </label>
+                                <label style="background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e0; cursor: pointer; user-select: none; font-size: 0.9rem;">
+                                    <input type="checkbox" name="extraTreat" value="施打狂犬病疫苗 (Rabies)" style="margin-right: 5px;"> 狂犬病
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div style="margin-top:20px; display:flex; gap:10px;">
-                        <button onclick="window.generateCaseReport()" style="flex:1; padding:10px; background:#2d3748; color:white; border:none; border-radius:6px;">生成報告</button>
-                        <button onclick="window.closeAll()" style="flex:1; padding:10px; background:#e2e8f0; border:none; border-radius:6px;">取消</button>
-                    </div>
-                    <div id="caseResultArea" style="display:none; margin-top:20px; padding:15px; border:2px solid #2d3748; background:#fff; position:relative;">
-                        <pre id="caseOutput" style="white-space:pre-wrap; font-size:1rem;"></pre>
-                        <button onclick="window.copyCaseText()" style="position:absolute; right:10px; top:10px; background:#2d3748; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">複製</button>
+
+                    <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                        <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 12px;"><i class="fas fa-child"></i> A (傷勢細節設定)</label>
+                        <div id="partsScrollArea" style="max-height: 310px; overflow-y: auto; padding-right: 5px;">
+                            ${partsHtml}
+                        </div>
                     </div>
                 </div>
-            </div>`;
+
+                <div style="margin-top: 25px; display: flex; gap: 15px;">
+                    <button onclick="window.generateCaseReport()" style="flex: 2; padding: 14px; background: #3182ce; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);">
+                        <i class="fas fa-magic"></i> 生成醫療報告
+                    </button>
+                    <button onclick="window.resetCaseAssistant()" style="flex: 1; padding: 14px; background: #ecc94b; color: #744210; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s;">
+                        <i class="fas fa-undo"></i> 重設
+                    </button>
+                    <button onclick="window.closeAll()" style="flex: 1; padding: 14px; background: #a0aec0; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s;">
+                        取消
+                    </button>
+                </div>
+
+                <div id="caseResultArea" style="display: none; margin-top: 25px; animation: fadeIn 0.4s ease;">
+                    <div style="background: #fff; padding: 20px; border-left: 5px solid #2d3748; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 20px 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: #2d3748; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Clinical Report Result</h4>
+                        <pre id="caseOutput" style="white-space: pre-wrap; font-size: 1.05rem; line-height: 1.6; color: #1a202c; font-family: 'Consolas', monospace; margin: 0;"></pre>
+                        <button onclick="window.copyCaseText()" style="position: absolute; right: 15px; top: 15px; background: #2d3748; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 5px;">
+                            <i class="fas fa-copy"></i> 複製內容
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+            #partsScrollArea::-webkit-scrollbar { width: 6px; }
+            #partsScrollArea::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+            #partsScrollArea::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
+            #partsScrollArea::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+            input:focus, select:focus { border-color: #3182ce !important; outline: none; box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2); }
+        </style>
+    `;
     };
 
     const getClinicalSign = (part, type) => {
@@ -463,14 +508,7 @@
 
         // 7. 整合衛教文字 (若無符合項目則顯示預設值)
         // 整合衛教文字
-        let finalEdu = "";
-        if (eduSet.size > 0) {
-            // 這裡會把 Set 裡面所有的項目用分號串起來
-            finalEdu = Array.from(eduSet).join("；\n");
-        } else {
-            finalEdu = MEDICAL_DATA.eLibrary["default"];
-        }
-
+        let finalEdu = eduSet.size > 0 ? Array.from(eduSet).join("；") : "請遵照醫囑休息，如有不適隨時回診。";
         // 8. 組合最終報告
         const actionText = Array.from(pSteps).join(" → ");
         const reasonText = reason ? ` (原因：${reason})` : "";
@@ -484,6 +522,36 @@ P：${actionText}
         // 9. 輸出到介面
         document.getElementById('caseOutput').innerText = report;
         document.getElementById('caseResultArea').style.display = 'block';
+    };
+
+    window.resetCaseAssistant = function () {
+        // 1. 清空主訴輸入框
+        const sInput = document.getElementById('caseS');
+        if (sInput) sInput.value = "";
+
+        // 2. 將原因下拉選單歸零
+        const reasonSelect = document.getElementById('caseReason');
+        if (reasonSelect) reasonSelect.selectedIndex = 0;
+
+        // 3. 將所有部位的傷勢下拉選單歸零 (選回 "-- 無 --")
+        const partSelects = document.querySelectorAll('select[name="partInjury"]');
+        partSelects.forEach(select => {
+            select.selectedIndex = 0;
+        });
+
+        // 4. 取消所有額外處置的勾選 (Checkbox)
+        const extraCheckboxes = document.querySelectorAll('input[name="extraTreat"]');
+        extraCheckboxes.forEach(cb => {
+            cb.checked = false;
+        });
+
+        // 5. 隱藏並清空結果顯示區域
+        const resultArea = document.getElementById('caseResultArea');
+        const outputText = document.getElementById('caseOutput');
+        if (resultArea) resultArea.style.display = 'none';
+        if (outputText) outputText.innerText = "";
+
+        console.log("病例系統已清空");
     };
 
     // --- 5. 術語百科 ---
@@ -570,6 +638,7 @@ P：${actionText}
 
         listArea.innerHTML = html || '<div style="text-align:center; color:#adb5bd; padding-top:50px; font-style: italic;">查無相關術語...</div>';
     };
+
 
     // 3. 搜尋與過濾邏輯 (保持不變，但確保呼叫的是新的 render)
     window.filterWikiByCat = function (cat, btn) {
