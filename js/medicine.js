@@ -61,7 +61,8 @@
             "穿透槍傷(無傷及骨頭)": ["以生理食鹽水沖洗", "使用優碘消毒", "局部麻醉", "擴大傷口並清理彈道通道", "移除異物及殘留金屬碎片", "使用生理食鹽水與抗生素溶液沖洗", "縫合患部", "塗抹抗生素藥膏", "無菌敷料覆蓋"],
             "輕度槍傷(僅擦傷表皮)": ["以生理食鹽水沖洗", "使用優碘消毒", "塗抹抗生素藥膏", "無菌敷料覆蓋", "冰敷"],
             "低血糖": ["測量血糖值進行確認", "給予葡萄糖濃縮液"],
-            "嗆水": ["協助患者採取側臥位", "拍背協助排出水分", "給予高濃度氧氣治療", "持續監測血氧飽和度(SpO2)", "觀察有無吸入性肺炎徵兆"]
+            "嗆水": ["協助患者採取側臥位", "拍背協助排出水分", "給予高濃度氧氣治療", "持續監測血氧飽和度(SpO2)", "觀察有無吸入性肺炎徵兆"],
+            "輕微觸電": ["移除患處飾品", "大量生理食鹽水沖洗降溫", "塗抹燒燙傷藥膏", "無菌敷料覆蓋"]
         },
         eLibrary: {
             "擦挫傷": "傷口保持乾燥，每日更換敷料，觀察有無紅腫熱痛等感染徵兆。",
@@ -72,6 +73,7 @@
             "防彈衣後鈍傷 (BABT)": "24小時內持續冰敷；若出現呼吸困難、劇烈腹痛或咳血，請立即急診。",
             "低血糖": "隨身攜帶糖果，避免空腹運動，若反覆發作請至門診追蹤。",
             "嗆水": "觀察 24 小時內有無咳嗽加劇或發燒，預防遲發性吸入性肺炎。",
+            "輕微觸電": "傷口若出現水泡請勿自行弄破以免感染；未來24小時若有心跳不規律或胸悶請務必就醫。",
             "default": "傷口保持乾燥，勿碰水，避免激烈運動，觀察後續變化。"
         },
         wiki: {
@@ -354,8 +356,18 @@
                             <option value="低血糖">低血糖</option>
                             <option value="扭傷">扭傷</option>
                             <option value="嗆水">嗆水 (呼吸道)</option>
+                            <option value="動物咬傷">動物咬傷</option>
+                            <option value="輕微觸電">輕微觸電</option>
                             </select>
+                            <div style="margin-top:15px;">
+    <label style="display:block; margin-bottom:5px;">額外處置 / 疫苗</label>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; background: #fff; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+        <label><input type="checkbox" name="extraTreat" value="施打破傷風疫苗 (Tetanus)"> 破傷風</label>
+        <label><input type="checkbox" name="extraTreat" value="施打狂犬病疫苗 (Rabies)"> 狂犬病</label>
+    </div>
+</div>
                         </div>
+                        
                         <div style="background:#f8fafc; padding:10px; border-radius:8px;">
                             <label>A (傷勢設定)</label>
                             <div style="max-height: 250px; overflow-y: auto; background:white; padding:10px; border:1px solid #ddd;">${partsHtml}</div>
@@ -384,8 +396,8 @@
             "銳器劃傷": `${part}傷口邊緣整齊並持續滲血`,
             "撕裂傷": `${part}傷口不規則裂開且有深層組織外露`,
             "槍擊 (防彈衣)": `${part}受擊處呈現圓形挫傷、明顯瘀血及深層壓痛`,
-            // 新增槍擊鈍傷描述
-            "皮下瘀青": `${part}呈現圓形大面積瘀血，觸診局部壓痛明顯`
+            "皮下瘀青": `${part}呈現圓形大面積瘀血，觸診局部壓痛明顯`,
+            "輕微觸電": `${part}可見一至二度類灼傷紅斑，局部伴隨麻木與刺痛感`
         };
         return mapping[type] || `${part}呈現${type}徵象`;
     };
@@ -393,69 +405,83 @@
     window.generateCaseReport = function () {
         const sVal = document.getElementById('caseS').value || "患處疼痛";
         const reason = document.getElementById('caseReason').value;
+
+        // 1. 取得傷勢資料 (過濾掉未選取的部位)
         const rawInjuries = Array.from(document.querySelectorAll('select[name="partInjury"]'))
             .filter(s => s.value !== "")
             .map(s => ({ part: s.getAttribute('data-part'), type: s.value }));
 
         if (rawInjuries.length === 0) return alert("請至少選一個受傷部位！");
 
-        // 進行資料群組化 (相同傷勢合併部位)
+        // 2. 取得額外處置 (Checkbox 勾選項目)
+        const extraTreats = Array.from(document.querySelectorAll('input[name="extraTreat"]:checked'))
+            .map(cb => cb.value);
+
+        // 3. 進行資料群組化 (相同傷勢合併部位，例如：左手、右手擦挫傷)
         const grouped = {};
         rawInjuries.forEach(inj => {
             if (!grouped[inj.type]) grouped[inj.type] = [];
             grouped[inj.type].push(inj.part);
         });
 
-        let aTexts = [];
-        let oTexts = [];
-        let pSteps = new Set();
-        let selectedTypes = []; // 用於後續判定衛教內容
+        let aTexts = []; // Assessment 文字
+        let oTexts = []; // Objective 文字
+        let pSteps = new Set(); // Plan 步驟 (使用 Set 自動去重)
+        let eduSet = new Set(); // Education 衛教 (使用 Set 自動去重)
 
+        // 4. 遍歷群組化的傷勢資料
+        // --- 修改後的第 4 步迴圈 ---
         for (let type in grouped) {
             const parts = grouped[type].join('、');
-            selectedTypes.push(type); // 收集所有傷勢類型
-
-            // 生成 Assessment (A)
             aTexts.push(`${parts}${type}`);
-
-            // 生成 Objective (O)
             oTexts.push(getClinicalSign(parts, type));
 
-            // 收集 Plan (P)
             if (MEDICAL_DATA.pLibrary[type]) {
                 MEDICAL_DATA.pLibrary[type].forEach(step => pSteps.add(step));
             }
+
+            // --- 優化：加上部位名稱，讓衛教變唯一且具體 ---
+            if (MEDICAL_DATA.eLibrary[type]) {
+                // 例如變成：「(左手、右手擦挫傷)：傷口請保持乾燥...」
+                eduSet.add(`【${parts}${type}】${MEDICAL_DATA.eLibrary[type]}`);
+            }
         }
 
-        // --- 新增：動態衛教邏輯 (Education Logic) ---
-        let eduText = MEDICAL_DATA.eLibrary["default"];
+        // 5. 加入額外處置 (疫苗/抗生素等) 到 P 流程
+        extraTreats.forEach(treat => pSteps.add(treat));
 
-        // 優先權 1：若原因是「槍擊 (防彈衣)」，強制使用 BABT 衛教
+        // 6. 特殊衛教邏輯補充
+        // 根據原因補充衛教
         if (reason === "槍擊 (防彈衣)") {
-            eduText = MEDICAL_DATA.eLibrary["防彈衣後鈍傷 (BABT)"];
-        }
-        // 優先權 2：若有重大傷勢 (如骨折、嗆水)，優先顯示該衛教
-        else if (selectedTypes.includes("骨折")) {
-            eduText = MEDICAL_DATA.eLibrary["骨折"];
-        } else if (selectedTypes.includes("嗆水")) {
-            eduText = MEDICAL_DATA.eLibrary["嗆水"];
-        }
-        // 優先權 3：抓取選中的第一個傷勢對應的衛教
-        else if (selectedTypes.length > 0) {
-            const primaryType = selectedTypes[0];
-            eduText = MEDICAL_DATA.eLibrary[primaryType] || MEDICAL_DATA.eLibrary["default"];
+            eduSet.add(MEDICAL_DATA.eLibrary["防彈衣後鈍傷 (BABT)"]);
         }
 
+        // 根據處置補充衛教 (例如有打疫苗時)
+        if (extraTreats.some(t => t.includes("疫苗"))) {
+            eduSet.add("請留意疫苗接種處有無紅腫熱痛，如有過敏反應請立即回診。");
+        }
+
+        // 7. 整合衛教文字 (若無符合項目則顯示預設值)
+        // 整合衛教文字
+        let finalEdu = "";
+        if (eduSet.size > 0) {
+            // 這裡會把 Set 裡面所有的項目用分號串起來
+            finalEdu = Array.from(eduSet).join("；\n");
+        } else {
+            finalEdu = MEDICAL_DATA.eLibrary["default"];
+        }
+
+        // 8. 組合最終報告
         const actionText = Array.from(pSteps).join(" → ");
         const reasonText = reason ? ` (原因：${reason})` : "";
 
-        // 修改 report 模板中的衛教部分
         const report = `S：主訴${sVal}
 O：檢查發現${oTexts.join("；")}
 A：${aTexts.join(" 合併 ")}${reasonText}
 P：${actionText}
-(衛教：${eduText})`;
+(衛教：${finalEdu})`;
 
+        // 9. 輸出到介面
         document.getElementById('caseOutput').innerText = report;
         document.getElementById('caseResultArea').style.display = 'block';
     };
