@@ -323,113 +323,473 @@
 
     // --- 4. SOAP 病例助手 ---
     window.openCaseAssistant = function () {
-        const details = UI.initModal();
+        const details = UI.initModal(); // 假設 UI.initModal 會回傳 Modal 的內容容器
         const parts = ["全身", "頭部", "頸部", "胸部", "腹部", "背部", "左手臂", "右手臂", "左腿部", "右腿部"];
 
         const partOptions = `
-            <option value="">-- 無 --</option>
-            ${Object.keys(MEDICAL_DATA.pLibrary).map(k => `<option value="${k}">${k}</option>`).join('')}
-        `;
+        <option value="">-- 無 --</option>
+        ${Object.keys(MEDICAL_DATA.pLibrary).map(k => `<option value="${k}">${k}</option>`).join('')}
+    `;
 
+        // 預先生成右側部位清單
         let partsHtml = parts.map(part => `
-            <div style="display: grid; grid-template-columns: 75px 1fr; gap: 12px; align-items: center; margin-bottom: 10px; padding: 10px; background: #fff; border-radius: 8px; border: 2px solid #e2e8f0;">
-                <label style="font-weight: 700; color: #4a5568; font-size: 1rem;">${part}</label>
-                <select name="partInjury" data-part="${part}" style="width:100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 1rem; color: #2d3748; background: #fff; outline: none; cursor: pointer;">
-                    ${partOptions}
-                </select>
-            </div>
-        `).join('');
+        <div class="asst-part-row">
+            <label class="asst-label-sm">${part}</label>
+            <select name="partInjury" data-part="${part}" class="asst-input-sm">
+                ${partOptions}
+            </select>
+        </div>
+    `).join('');
 
         details.innerHTML = `
-        <div class="clinical-dashboard slide-in" style="width: 880px; max-width: 95vw; margin: auto; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;">
-            <div class="status-header" style="background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%); padding: 20px; color: white;  text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-                <h2 style="margin:0; font-size: 1.5rem; letter-spacing: 1.5px;"><i class="fas fa-file-medical-alt" style="margin-right: 10px;"></i> SOAP 智慧病例診斷系統</h2>
+    <div class="asst-container slide-in">
+        <div class="asst-header">
+            <h2><i class="fas fa-file-medical-alt"></i> SOAP 智慧病例診斷系統</h2>
+        </div>
+
+        <div class="asst-main-body">
+            <div class="asst-grid">
+                
+                <div class="asst-col-left">
+    <div class="asst-group">
+        <label class="asst-label">
+            <i class="fas fa-comment-medical"></i> S (傷患主訴)
+        </label>
+        <div class="asst-input-wrapper">
+            <input type="text" id="caseS" class="asst-input" placeholder="例如：胸口中彈、意識不清">
+            <span class="asst-input-focus-line"></span>
+        </div>
+    </div>
+
+        <div class="asst-group">
+            <label class="asst-label">
+                <i class="fas fa-house-damage"></i> 受傷原因 / 環境
+            </label>
+            <div class="asst-input-wrapper">
+                <select id="caseReason" class="asst-input">
+                    <option value="">-- 請選擇受傷環境 --</option>
+                    <optgroup label="外傷類">
+                        <option value="跌倒/擦撞">跌倒/擦撞</option>
+                        <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
+                        <option value="刀械/銳器割傷">刀械/銳器割傷</option>
+                        <option value="槍擊">槍擊</option>
+                    </optgroup>
+                    <optgroup label="事故類">
+                        <option value="車輛爆炸">車輛爆炸</option>
+                        <option value="車內碰撞">車內碰撞</option>
+                        <option value="車禍">車禍</option>
+                    </optgroup>
+                    <optgroup label="其他">
+                        <option value="低血糖">低血糖</option>
+                        <option value="扭傷">扭傷</option>
+                        <option value="嗆水">嗆水 (呼吸道)</option>
+                        <option value="動物咬傷">動物咬傷</option>
+                        <option value="輕微觸電">輕微觸電</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+
+        <div class="asst-vaccine-box">
+            <label class="asst-label">
+                <i class="fas fa-syringe"></i> 額外處置 / 疫苗項目
+            </label>
+            <div class="asst-check-group">
+                <label class="asst-pill-checkbox">
+                    <input type="checkbox" name="extraTreat" value="施打破傷風疫苗 (Tetanus)">
+                    <span class="asst-pill-content">
+                        <i class="fas fa-shield-virus"></i> 破傷風
+                    </span>
+                </label>
+                <label class="asst-pill-checkbox">
+                    <input type="checkbox" name="extraTreat" value="施打狂犬病疫苗 (Rabies)">
+                    <span class="asst-pill-content">
+                        <i class="fas fa-dog"></i> 狂犬病
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+                <div class="asst-col-right">
+                    <label class="asst-label"><i class="fas fa-child"></i> A (傷勢細節設定)</label>
+                    <div id="asstScrollArea">
+                        ${partsHtml}
+                    </div>
+                </div>
             </div>
 
-            <div class="panel" style="background: #f7fafc; padding: 25px; border-radius: 0 0 12px 12px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
-                <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 25px;">
-                    
-                    <div>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 8px;">S (傷患主訴)</label>
-                            <input type="text" id="caseS" style="width:100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s;" placeholder="例如：胸口中彈、意識不清">
-                        </div>
+            <div class="asst-actions">
+                <button onclick="window.generateCaseReport()" class="asst-btn-primary">
+                    <i class="fas fa-magic"></i> 生成醫療報告
+                </button>
+                <button onclick="window.toggleDarkMode()" id="asstThemeBtn" class="asst-btn-theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button onclick="window.resetCaseAssistant()" class="asst-btn-reset">
+                    <i class="fas fa-undo"></i> 重設
+                </button>
+                <button onclick="window.closeAll()" class="asst-btn-cancel">取消</button>
+            </div>
 
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 8px;">受傷原因</label>
-                            <select id="caseReason" style="width:100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer;">
-                                <option value="">-- 請選擇受傷環境 --</option>
-                                <option value="跌倒/擦撞">跌倒/擦撞</option>
-                                <option value="拳頭/鈍器毆打">拳頭/鈍器毆打</option>
-                                <option value="刀械/銳器割傷">刀械/銳器割傷</option>
-                                <option value="車輛爆炸">車輛爆炸</option>
-                                <option value="槍擊">槍擊</option>
-                                <option value="車內碰撞">車內碰撞</option>
-                                <option value="車禍">車禍</option>
-                                <option value="低血糖">低血糖</option>
-                                <option value="扭傷">扭傷</option>
-                                <option value="嗆水">嗆水 (呼吸道)</option>
-                                <option value="動物咬傷">動物咬傷</option>
-                                <option value="輕微觸電">輕微觸電</option>
-                            </select>
-                        </div>
-
-                        <div style="background: #edf2f7; padding: 15px; border-radius: 10px; border: 1px dashed #cbd5e0;">
-                            <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 10px;"><i class="fas fa-syringe"></i> 額外處置 / 疫苗項目</label>
-                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                                <label style="background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e0; cursor: pointer; user-select: none; font-size: 0.9rem;">
-                                    <input type="checkbox" name="extraTreat" value="施打破傷風疫苗 (Tetanus)" style="margin-right: 5px;"> 破傷風
-                                </label>
-                                <label style="background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #cbd5e0; cursor: pointer; user-select: none; font-size: 0.9rem;">
-                                    <input type="checkbox" name="extraTreat" value="施打狂犬病疫苗 (Rabies)" style="margin-right: 5px;"> 狂犬病
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-                        <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 12px;"><i class="fas fa-child"></i> A (傷勢細節設定)</label>
-                        <div id="partsScrollArea" style="max-height: 310px; overflow-y: auto; padding-right: 5px;">
-                            ${partsHtml}
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 25px; display: flex; gap: 15px;">
-                    <button onclick="window.generateCaseReport()" style="flex: 2; padding: 14px; background: #3182ce; color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 6px rgba(49, 130, 206, 0.3);">
-                        <i class="fas fa-magic"></i> 生成醫療報告
-                    </button>
-                    <button onclick="window.resetCaseAssistant()" style="flex: 1; padding: 14px; background: #ecc94b; color: #744210; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s;">
-                        <i class="fas fa-undo"></i> 重設
-                    </button>
-                    <button onclick="window.closeAll()" style="flex: 1; padding: 14px; background: #a0aec0; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.2s;">
-                        取消
-                    </button>
-                </div>
-
-                <div id="caseResultArea" style="display: none; margin-top: 25px; animation: fadeIn 0.4s ease;">
-                    <div style="background: #fff; padding: 20px; border-left: 5px solid #2d3748; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; background-image: radial-gradient(#e2e8f0 1px, transparent 1px); background-size: 20px 20px;">
-                        <h4 style="margin: 0 0 10px 0; color: #2d3748; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Clinical Report Result</h4>
-                        <pre id="caseOutput" style="white-space: pre-wrap; font-size: 1.05rem; line-height: 1.6; color: #1a202c; font-family: 'Consolas', monospace; margin: 0;"></pre>
-                        <button onclick="window.copyCaseText()" style="position: absolute; right: 15px; top: 15px; background: #2d3748; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 5px;">
-                            <i class="fas fa-copy"></i> 複製內容
+            <div id="caseResultArea" style="display: none; margin-top: 30px;">
+                <div class="asst-result-card slide-in">
+                    <div class="asst-result-header">
+                        <span class="asst-status-tag"><i class="fas fa-check-circle"></i> 診斷完成</span>
+                        <button onclick="window.copyCaseText()" class="asst-btn-copy">
+                            <i class="fas fa-copy"></i> 複製報告
                         </button>
+                    </div>
+                    <div class="asst-result-body">
+                        <pre id="caseOutput"></pre>
+                    </div>
+                    <div class="asst-result-footer">
+                        <small>* 此報告僅供 Roleplay 醫療用途使用</small>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+<style>
+    /* 1. 基礎容器與變數定義 */
+    .asst-container {
+        /* 淺色模式變數 */
+        --asst-bg: #f7fafc;
+        --asst-card: #ffffff;
+        --asst-text: #2d3748;
+        --asst-label: #4a5568;
+        --asst-border: #e2e8f0;
+        --asst-accent: #3182ce;
+        --asst-header-bg: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        --asst-scroll-thumb: #cbd5e0;
         
-        <style>
-            @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-            #partsScrollArea::-webkit-scrollbar { width: 6px; }
-            #partsScrollArea::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-            #partsScrollArea::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
-            #partsScrollArea::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
-            input:focus, select:focus { border-color: #3182ce !important; outline: none; box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2); }
-        </style>
+        /* 按鈕變數 */
+        --asst-btn-primary: #3182ce;
+        --asst-btn-reset: #ecc94b;
+        --asst-btn-reset-text: #744210;
+        --asst-btn-cancel: #a0aec0;
+        --asst-btn-theme-bg: #4a5568;
+
+        width: 880px; 
+        max-width: 95vw; 
+        margin: auto;
+        font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif !important;
+        color: var(--asst-text);
+        text-align: left !important; /* 修正字體置中 */
+    }
+
+    /* 2. 深色模式變數覆蓋 */
+    .asst-container.dark-mode {
+        --asst-bg: #1a202c;
+        --asst-card: #2d3748;
+        --asst-text: #edf2f7;
+        --asst-label: #cbd5e0;
+        --asst-border: #4a5568;
+        --asst-accent: #63b3ed;
+        --asst-header-bg: linear-gradient(135deg, #111827 0%, #000000 100%);
+        --asst-scroll-thumb: #718096;
+        
+        /* 深色模式按鈕微調 */
+        --asst-btn-primary: #63b3ed;
+        --asst-btn-reset: #f6e05e;
+        --asst-btn-reset-text: #4a2b00;
+        --asst-btn-cancel: #4a5568;
+        --asst-btn-theme-bg: #cbd5e0;
+    }
+
+/* 修改這部分，確保兩種模式的結構一致 */
+        .modal-content {
+            padding: 20 !important; /* 強制移除預設內距 */
+            overflow: hidden !important;
+            overflow-y: auto !important;
+            border-radius: 12px !important;
+            transition: background-color 0.3s ease, border 0.3s ease; /* 增加過渡讓變色更平滑 */
+        }
+
+        .modal-content.dark-mode {
+            background-color: #1a202c !important; /* 使用實色，不要用 rgba */
+            background: #1a202c !important;      /* 雙重保險 */
+            opacity: 1 !important;               /* 確保透明度是 100% */
+        }
+
+    /* 4. 組件樣式 */
+    .asst-header {
+        background: var(--asst-header-bg) !important;
+        padding: 20px !important;
+        color: white !important;
+        text-align: center !important;
+        border-radius: 12px 12px 0 0 !important;
+        transition: 0.3s;
+    }
+    .asst-header h2 { margin: 0 !important; font-size: 1.5rem !important; color: white !important; }
+
+    .asst-main-body {
+            background-color: var(--asst-bg) !important;
+            padding: 25px !important;
+            border-radius: 0 0 12px 12px !important;
+            min-height: 550px; /* 設定一個最小高度，防止內容增減時版型跳動 */
+            box-sizing: border-box !important;
+        }
+
+    .asst-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1.1fr !important;
+        gap: 25px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 5. 表單元素 */
+    .asst-label { display: block !important; font-weight: 700 !important; margin-bottom: 8px !important; color: var(--asst-text) !important; }
+    .asst-input {
+        width: 100% !important; padding: 12px !important; border: 2px solid var(--asst-border) !important;
+        border-radius: 8px !important; background: var(--asst-card) !important; color: var(--asst-text) !important;
+        box-sizing: border-box !important; outline: none; transition: 0.2s;
+    }
+    .asst-input:focus { border-color: var(--asst-accent) !important; }
+
+    /* 6. 右側部位選擇區 */
+    .asst-col-right {
+        background: var(--asst-card) !important; padding: 15px !important;
+        border-radius: 12px !important; border: 1px solid var(--asst-border) !important;
+    }
+    .asst-part-row {
+        display: grid !important; grid-template-columns: 75px 1fr !important; gap: 12px !important;
+        align-items: center !important; margin-bottom: 10px !important; padding: 10px !important;
+        background: var(--asst-bg) !important; border-radius: 8px !important; border: 2px solid var(--asst-border) !important;
+    }
+    .asst-label-sm { font-weight: 700 !important; color: var(--asst-label) !important; }
+    .asst-input-sm {
+        width: 100% !important; padding: 8px !important; border: 1px solid var(--asst-border) !important;
+        border-radius: 6px !important; background: var(--asst-card) !important; color: var(--asst-text) !important;
+    }
+
+    /* 7. 滾動條樣式 */
+    #asstScrollArea {
+        max-height: 310px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding-right: 8px !important;
+    }
+    #asstScrollArea::-webkit-scrollbar { width: 6px !important; }
+    #asstScrollArea::-webkit-scrollbar-track { background: transparent !important; }
+    #asstScrollArea::-webkit-scrollbar-thumb {
+        background: var(--asst-scroll-thumb) !important;
+        border-radius: 10px !important;
+    }
+
+    /* 8. 按鈕與動作區 */
+    .asst-actions { display: flex !important; gap: 15px !important; margin-top: 25px !important; }
+    
+    .asst-btn-primary { flex: 2; padding: 14px; background: var(--asst-btn-primary) !important; color: white !important; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .asst-btn-theme { flex: 0.5; background: var(--asst-btn-theme-bg) !important; color: var(--asst-bg) !important; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .asst-btn-reset { flex: 1; padding: 14px; background: var(--asst-btn-reset) !important; color: var(--asst-btn-reset-text) !important; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .asst-btn-cancel { flex: 1; padding: 14px; background: var(--asst-btn-cancel) !important; color: white !important; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+
+    .asst-btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* 9. 結果顯示 */
+    .asst-result-card {
+        background: var(--asst-card) !important;
+        border: 1px solid var(--asst-border) !important;
+        border-left: 6px solid var(--asst-accent) !important; /* 左側藍條增加專業感 */
+        border-radius: 12px !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .asst-container.dark-mode .asst-result-card {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
+        border-color: #4a5568 !important;
+    }
+
+    .asst-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid var(--asst-border);
+}
+
+    .asst-container.dark-mode .asst-result-header {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .asst-status-tag {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--asst-accent);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* 報告內容區 */
+    .asst-result-body {
+        padding: 20px;
+    }
+
+    #caseOutput {
+        white-space: pre-wrap;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--asst-text);
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace !important; /* 打字機字體 */
+        margin: 0;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 6px;
+    }
+
+    .asst-container.dark-mode #caseOutput {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* 複製按鈕美化 */
+    .asst-btn-copy {
+        background: var(--asst-accent) !important;
+        color: white !important;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .asst-btn-copy:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+
+    .asst-result-footer {
+        padding: 8px 20px;
+        background: transparent;
+        border-top: 1px solid var(--asst-border);
+        text-align: right;
+        color: var(--asst-label);
+        font-size: 0.75rem;
+        opacity: 0.7;
+    }
+
+    /* 左側容器間距 */
+    .asst-col-left {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* 輸入框包裝器 */
+    .asst-input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    /* 下拉選單群組美化 */
+    optgroup {
+        background: var(--asst-card);
+        color: var(--asst-accent);
+        font-weight: bold;
+    }
+
+    /* 膠囊按鈕美化 (Pill Checkbox) */
+    .asst-check-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .asst-pill-checkbox {
+        cursor: pointer;
+        flex: 1;
+    }
+
+    .asst-pill-checkbox input {
+        display: none; /* 隱藏原本醜醜的勾選框 */
+    }
+
+    .asst-pill-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 15px;
+        background: var(--asst-card);
+        border: 2px solid var(--asst-border);
+        border-radius: 50px; /* 圓角膠囊 */
+        color: var(--asst-text);
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 膠囊選中狀態 */
+    .asst-pill-checkbox input:checked + .asst-pill-content {
+        background: var(--asst-accent);
+        border-color: var(--asst-accent);
+        color: white;
+        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+        transform: translateY(-2px);
+    }
+
+    /* 深色模式下的膠囊微調 */
+    .asst-container.dark-mode .asst-pill-content {
+        background: #2d3748;
+    }
+
+    /* 疫苗外框虛線優化 */
+    .asst-vaccine-box {
+        background: rgba(0, 0, 0, 0.02);
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px dashed var(--asst-border);
+        transition: 0.3s;
+    }
+
+    .asst-container.dark-mode .asst-vaccine-box {
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* 圖示間距 */
+    .asst-label i {
+        margin-right: 8px;
+        color: var(--asst-accent);
+        width: 18px;
+        text-align: center;
+    }
+
+    #caseOutput { white-space: pre-wrap; font-size: 1.05rem; line-height: 1.6; color: var(--asst-text); font-family: monospace; margin: 0; }
+    
+    /* 動畫 */
+    .slide-in { animation: asstFadeIn 0.4s ease; }
+    @keyframes asstFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
     `;
     };
 
+    // --- 深色模式切換邏輯 ---
+    window.toggleDarkMode = function () {
+        const container = document.querySelector('.asst-container');
+        const themeBtn = document.getElementById('asstThemeBtn');
+        if (!container) return;
+
+        // 切換本體 (這會觸發 Header 和滾動條顏色的變數切換)
+        container.classList.toggle('dark-mode');
+
+        // 切換外框
+        const modalContent = container.closest('.modal-content');
+        if (modalContent) {
+            modalContent.classList.toggle('dark-mode');
+        }
+
+        // 圖示切換
+        const isDark = container.classList.contains('dark-mode');
+        themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    };
+    // --- 輔助函式：取得臨床徵象 ---
     const getClinicalSign = (part, type) => {
         const mapping = {
             "擦挫傷": `${part}表皮紅腫滲血`,
@@ -447,35 +807,31 @@
         return mapping[type] || `${part}呈現${type}徵象`;
     };
 
+    // --- 生成報告邏輯 ---
     window.generateCaseReport = function () {
         const sVal = document.getElementById('caseS').value || "患處疼痛";
         const reason = document.getElementById('caseReason').value;
 
-        // 1. 取得傷勢資料 (過濾掉未選取的部位)
         const rawInjuries = Array.from(document.querySelectorAll('select[name="partInjury"]'))
             .filter(s => s.value !== "")
             .map(s => ({ part: s.getAttribute('data-part'), type: s.value }));
 
         if (rawInjuries.length === 0) return alert("請至少選一個受傷部位！");
 
-        // 2. 取得額外處置 (Checkbox 勾選項目)
         const extraTreats = Array.from(document.querySelectorAll('input[name="extraTreat"]:checked'))
             .map(cb => cb.value);
 
-        // 3. 進行資料群組化 (相同傷勢合併部位，例如：左手、右手擦挫傷)
         const grouped = {};
         rawInjuries.forEach(inj => {
             if (!grouped[inj.type]) grouped[inj.type] = [];
             grouped[inj.type].push(inj.part);
         });
 
-        let aTexts = []; // Assessment 文字
-        let oTexts = []; // Objective 文字
-        let pSteps = new Set(); // Plan 步驟 (使用 Set 自動去重)
-        let eduSet = new Set(); // Education 衛教 (使用 Set 自動去重)
+        let aTexts = [];
+        let oTexts = [];
+        let pSteps = new Set();
+        let eduSet = new Set();
 
-        // 4. 遍歷群組化的傷勢資料
-        // --- 修改後的第 4 步迴圈 ---
         for (let type in grouped) {
             const parts = grouped[type].join('、');
             aTexts.push(`${parts}${type}`);
@@ -484,32 +840,16 @@
             if (MEDICAL_DATA.pLibrary[type]) {
                 MEDICAL_DATA.pLibrary[type].forEach(step => pSteps.add(step));
             }
-
-            // --- 優化：加上部位名稱，讓衛教變唯一且具體 ---
             if (MEDICAL_DATA.eLibrary[type]) {
-                // 例如變成：「(左手、右手擦挫傷)：傷口請保持乾燥...」
                 eduSet.add(`【${parts}${type}】${MEDICAL_DATA.eLibrary[type]}`);
             }
         }
 
-        // 5. 加入額外處置 (疫苗/抗生素等) 到 P 流程
         extraTreats.forEach(treat => pSteps.add(treat));
+        if (reason === "槍擊 (防彈衣)") eduSet.add(MEDICAL_DATA.eLibrary["防彈衣後鈍傷 (BABT)"]);
+        if (extraTreats.some(t => t.includes("疫苗"))) eduSet.add("請留意疫苗接種處有無紅腫熱痛，如有過敏反應請立即回診。");
 
-        // 6. 特殊衛教邏輯補充
-        // 根據原因補充衛教
-        if (reason === "槍擊 (防彈衣)") {
-            eduSet.add(MEDICAL_DATA.eLibrary["防彈衣後鈍傷 (BABT)"]);
-        }
-
-        // 根據處置補充衛教 (例如有打疫苗時)
-        if (extraTreats.some(t => t.includes("疫苗"))) {
-            eduSet.add("請留意疫苗接種處有無紅腫熱痛，如有過敏反應請立即回診。");
-        }
-
-        // 7. 整合衛教文字 (若無符合項目則顯示預設值)
-        // 整合衛教文字
         let finalEdu = eduSet.size > 0 ? Array.from(eduSet).join("；") : "請遵照醫囑休息，如有不適隨時回診。";
-        // 8. 組合最終報告
         const actionText = Array.from(pSteps).join(" → ");
         const reasonText = reason ? ` (原因：${reason})` : "";
 
@@ -519,39 +859,18 @@ A：${aTexts.join(" 合併 ")}${reasonText}
 P：${actionText}
 (衛教：${finalEdu})`;
 
-        // 9. 輸出到介面
         document.getElementById('caseOutput').innerText = report;
         document.getElementById('caseResultArea').style.display = 'block';
     };
 
+    // --- 重設功能 ---
     window.resetCaseAssistant = function () {
-        // 1. 清空主訴輸入框
-        const sInput = document.getElementById('caseS');
-        if (sInput) sInput.value = "";
-
-        // 2. 將原因下拉選單歸零
-        const reasonSelect = document.getElementById('caseReason');
-        if (reasonSelect) reasonSelect.selectedIndex = 0;
-
-        // 3. 將所有部位的傷勢下拉選單歸零 (選回 "-- 無 --")
-        const partSelects = document.querySelectorAll('select[name="partInjury"]');
-        partSelects.forEach(select => {
-            select.selectedIndex = 0;
-        });
-
-        // 4. 取消所有額外處置的勾選 (Checkbox)
-        const extraCheckboxes = document.querySelectorAll('input[name="extraTreat"]');
-        extraCheckboxes.forEach(cb => {
-            cb.checked = false;
-        });
-
-        // 5. 隱藏並清空結果顯示區域
-        const resultArea = document.getElementById('caseResultArea');
-        const outputText = document.getElementById('caseOutput');
-        if (resultArea) resultArea.style.display = 'none';
-        if (outputText) outputText.innerText = "";
-
-        console.log("病例系統已清空");
+        document.getElementById('caseS').value = "";
+        document.getElementById('caseReason').selectedIndex = 0;
+        document.querySelectorAll('select[name="partInjury"]').forEach(s => s.selectedIndex = 0);
+        document.querySelectorAll('input[name="extraTreat"]').forEach(cb => cb.checked = false);
+        document.getElementById('caseResultArea').style.display = 'none';
+        document.getElementById('caseOutput').innerText = "";
     };
 
     // --- 5. 術語百科 ---

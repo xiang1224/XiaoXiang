@@ -216,7 +216,7 @@ p {
     padding: 30px;
     /* 增加內邊距 */
     border: none;
-    width: 90%;
+    width: 100%;
     /* 從 80% 提升到 90% */
     max-width: 1000px;
     /* 最大寬度從 600px 提升到 1000px，適合雙欄展示 */
