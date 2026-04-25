@@ -636,6 +636,68 @@
         </div>
     </div>`;
                 break;
+            case "drowning":
+                content = `
+    <div class="clinical-dashboard">
+        <div class="status-header">
+            <span class="status-badge" style="background: #3182ce;">Respiratory Emergency</span>
+            <h2>🌊 溺水救援與復甦處置 (Drowning & Recovery)</h2>
+        </div>
+        <div class="dashboard-grid">
+            <div class="panel pre-hospital">
+                <h3>🚑 EMS 現場急救動作</h3>
+                <ul>
+                    <li>/do 迅速將溺水者移至平地，清除口鼻內水草、淤泥等異物</li>
+                    <li>/do 確認有無呼吸</li>
+                    <li>若患者無呼吸 /do CPR，並優先使用 BVM 提供 5 次人工通氣</li>
+                    <li>若患者有呼吸但意識模糊 /do 將患者側臥採復甦姿勢</li>
+                    <li>/do 保暖毯包裹患者，避免體溫進一步流失</li>
+                </ul>
+            </div>
+            <div class="panel in-hospital">
+                <h3>🏥 院內照護程序</h3>
+                <div class="procedure-box">
+                    <strong>1. 氣道與肺部管理</strong>
+                    <p>/do 安排胸部 X 光檢查，確認有無吸入性肺炎 (Aspiration Pneumonia)</p>
+                    <p>/do 戴上氧氣面罩持續給氧</p>
+                    <strong>2. 復甦後監測</strong>
+                    <p>● **嚴密觀察**：溺水者即使清醒，仍需留院 6-8 小時觀察是否有遲發性肺水腫</p>
+                    <p>● **神經評估**：定期檢查瞳孔反應與 GCS 意識狀態，確認有無缺氧性腦損傷</p>
+                    <p>● **體溫復原**：使用溫熱電毯或加溫輸液，將核心體溫緩慢回升至正常範圍</p>
+                </div>
+            </div>
+        </div>
+    </div>`;
+                break; 
+            case "electric_shock_minimal":
+                content = `
+    <div class="clinical-dashboard">
+        <div class="status-header">
+            <span class="status-badge" style="background: #ecc94b; color: #744210;">Quick Assessment</span>
+            <h2>⚡ 觸電傷口與清創處置</h2>
+        </div>
+        <div class="dashboard-grid">
+            <div class="panel pre-hospital">
+                <h3>🚑 現場傷情辨識</h3>
+                <ul>
+                    <li>/do 迅速翻轉傷患肢體，尋找電流「入口(Entry)」與「出口(Exit)」傷點</li>
+                    <li>/do 檢查傷口是否呈現焦黑或火山口狀，初步評估電流路徑</li>
+                </ul>
+            </div>
+            <div class="panel in-hospital">
+                <h3>🏥 臨床清創程序</h3>
+                <div class="procedure-box">
+                    <strong>1. 創面處置</strong>
+                    <p>/do 使用生理食鹽水徹底沖洗進出口傷處，移除焦痂與壞死組織</p>
+                    <p>/do 塗抹抗生素軟膏，並使用無菌紗布進行疏鬆包紮</p>
+                    <strong>2. 核心醫囑</strong>
+                    <p>● 檢查有無深層組織紅腫，預防內部熱損傷擴散</p>
+                    <p>● 囑咐患者保持傷口乾燥，並觀察尿液顏色有無異常</p>
+                </div>
+            </div>
+        </div>
+    </div>`;
+                break;
             // ... 以此類推 ...
         }
 
