@@ -346,9 +346,6 @@
                     <strong>1. 創面處置</strong>
                     <p>/me 使用生理食鹽水進行表面清潔</p>
                     <p>/me 均勻塗抹 Neomycin (新黴素軟膏) 保持組織濕潤</p>
-                    <strong>2. 後續醫囑</strong>
-                    <p>● 叮囑患者無需包紮，保持患處通風</p>
-                    <p>● 觀察 24 小時內是否出現水泡(轉為二度)</p>
 
                     <!-- 院後衛教卡片區塊 -->
                     <div style="margin-top: 15px; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); border-left: 4px solid #eab308; border-radius: 6px; padding: 12px 14px;">
@@ -437,7 +434,7 @@
                     <p>/me 執行標準氣管插管並啟動吸入性全身麻醉</p>
                     
                     <strong>2. 焦痂切開術 (Escharotomy)</strong>
-                    <p>/me 使用 #10 手術刀片沿患肢內外側中線執行縱向深切開</p>
+                    <p>/me 使用 10號 手術刀片沿患肢內外側中線執行縱向深切開</p>
                     <p>/me 深度切穿焦痂組織直到脂肪層，使皮緣向兩側彈開釋放壓力</p>
                     <p>/me 使用電燒刀 (Bovie) 對切口內活動性出血點進行止血</p>
                     
@@ -554,7 +551,7 @@
                     <p>/me 施打 Lidocaine 2% 進行肋間神經與胸壁局部浸潤麻醉</p>
                     
                     <strong>2. 胸腔切開術 (Thoracostomy)</strong>
-                    <p>/me 使用 #10 手術刀片於肋骨上緣執行 2-3cm 橫向切口</p>
+                    <p>/me 使用 10號 手術刀片於肋骨上緣執行 2-3cm 橫向切口</p>
                     <p>/me 使用止血鉗 (Kelly Clamp) 鈍性剝離肋間肌與壁層胸膜</p>
                     <p>/me 伸入手指確認胸膜腔內無組織黏連 (Finger Exploration)</p>
                     
@@ -609,7 +606,7 @@
                 <div class="procedure-box">
                     <strong>1. 局部浸潤與切開</strong>
                     <p>/me 於預計切口沿線快速注射 Lidocaine 2% 以降低手術應激反應</p>
-                    <p>/me 使用 #10 手術刀片於左側乳頭下方執行前側橫向大切口</p>
+                    <p>/me 使用 10號 手術刀片於左側乳頭下方執行前側橫向大切口</p>
                     <p>/me 迅速切斷肋間肌，避免損傷肋間動脈</p>
                     
                     <strong>2. 強力暴露 (Exposure)</strong>
@@ -916,7 +913,7 @@
                     <p>/me 使用 Betadine 快速由左胸大面積消毒至腋中線，鋪設無菌單</p>
                     
                     <strong>2. 開胸與暴露 (Exposure)</strong>
-                    <p>/me 使用 #10 刀片於左側第四肋間執行橫向切開，切斷肋間肌</p>
+                    <p>/me 使用 10號 刀片於左側第四肋間執行橫向切開，切斷肋間肌</p>
                     <p>/me 置入 Finochietto (開胸器) 強力撐開肋骨，移除殘餘血塊</p>
 
                     <strong>3. 心包膜切開與修補 (Pericardiotomy)</strong>
@@ -970,7 +967,7 @@
                 <h3>🏥 剖腹探查程序</h3>
                 <div class="procedure-box">
                     <strong>1. 正中切開與進入 (Entry)</strong>
-                    <p>/me 使用 #10 刀片執行正中線切開 (Midline Incision)，切穿白線進入腹腔</p>
+                    <p>/me 使用 10號 刀片執行正中線切開 (Midline Incision)，切穿白線進入腹腔</p>
                     <p>/me 使用大型吸引器 (Yankauer) 抽吸積血，視野顯露腸道與器官</p>
 
                     <strong>2. 四象限探查與止血 (Evisceration)</strong>
@@ -1107,12 +1104,9 @@
                 <h3>🏥 院內照護程序</h3>
                 <div class="procedure-box">
                     <strong>1. 氣道與肺部管理</strong>
-                    <p>/me 安排胸部 X 光檢查，確認有無吸入性肺炎 (Aspiration Pneumonia)</p>
                     <p>/me 戴上非再呼吸型氧氣面罩 (NRM)，設定高流量給氧</p>
 
                     <strong>2. 復甦後監測與穩定</strong>
-                    <p>/me 密切觀察生命徵象 6-8 小時，監測有無遲發性肺水腫 (Dry Drowning) 徵兆</p>
-                    <p>/me 執行神經學評估，定期檢查瞳孔光反應與 GCS 意識分級</p>
                     <p>/me 使用溫熱電毯並給予加溫輸液，將核心體溫緩慢回升至正常範圍</p>
 
                     <!-- 院後衛教卡片區塊 -->
